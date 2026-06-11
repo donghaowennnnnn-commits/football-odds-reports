@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="300">
+<title>足球盘口情报站 · 总览</title><style>
+:root{--bg:#070b18;--card:#0d1430;--card2:#0a102a;--line:rgba(0,212,255,.18);
+--cyan:#00d4ff;--mag:#ff2e88;--vio:#8b5cf6;--ink:#dfe7ff;--mut:#7a86ad;
+--good:#2bd97c;--warn:#ffb454;--bad:#ff5d6c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 80% -10%,rgba(255,46,136,.13),transparent 60%),
+radial-gradient(1000px 500px at -10% 10%,rgba(0,212,255,.12),transparent 55%),var(--bg);
+color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+padding:26px 32px;min-width:1100px}
+.hero{border:1px solid var(--line);border-radius:18px;padding:24px 30px;
+background:linear-gradient(135deg,rgba(0,212,255,.10),rgba(255,46,136,.08) 60%,transparent);
+box-shadow:0 0 28px rgba(0,212,255,.10),inset 0 0 60px rgba(0,0,0,.35)}
+.tag{font-size:11px;letter-spacing:.35em;color:var(--cyan);margin-bottom:10px}
+h1{font-size:32px;font-weight:800}
+h1 .vs{color:var(--mag);font-size:20px;margin:0 12px;text-shadow:0 0 14px rgba(255,46,136,.8)}
+.chips{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:999px;
+padding:4px 12px;background:rgba(0,0,0,.25)}
+.chip b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:18px}
+.card{grid-column:span 6;border:1px solid var(--line);border-radius:16px;
+background:linear-gradient(180deg,var(--card),var(--card2));padding:18px 20px;
+box-shadow:0 0 18px rgba(0,212,255,.06)}
+.card.w12{grid-column:span 12}
+.ct{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ct .ico{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;
+justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--vio));
+color:#04101e;font-weight:700;font-size:13px;box-shadow:0 0 12px rgba(0,212,255,.55)}
+.ct h2{font-size:15px;letter-spacing:.06em}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{color:#03142a;background:linear-gradient(90deg,rgba(0,212,255,.95),rgba(139,92,246,.9));
+padding:7px 8px;text-align:center;font-weight:700}
+th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}
+td{padding:7px 8px;text-align:center;border-bottom:1px solid rgba(122,134,173,.15)}
+td:first-child{text-align:left;color:var(--mut)}
+tr:hover td{background:rgba(0,212,255,.05)}
+.pos{color:var(--good);font-weight:700}.neg{color:var(--bad)}
+.rec{margin-top:12px;border:1px dashed rgba(0,212,255,.4);border-radius:12px;
+padding:10px 14px;font-size:13px;background:rgba(0,212,255,.05);line-height:1.7}
+.rec .pick{color:var(--cyan);font-weight:800;text-shadow:0 0 10px rgba(0,212,255,.6)}
+.badge{display:inline-block;border-radius:999px;padding:2px 10px;font-size:11px;
+font-weight:700;margin-left:8px}
+.b-good{background:rgba(43,217,124,.15);color:var(--good);border:1px solid rgba(43,217,124,.5)}
+.b-mid{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.45)}
+.b-warn{background:rgba(255,180,84,.12);color:var(--warn);border:1px solid rgba(255,180,84,.5)}
+ul{list-style:none}
+li{font-size:12.5px;padding:4px 0 4px 16px;position:relative;line-height:1.6}
+li:before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;
+border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.mut{color:var(--mut)}
+.small{font-size:11px;color:var(--mut);line-height:1.65;margin-top:10px}
+.kpis{display:flex;gap:14px;margin:12px 0 2px}
+.kpi{flex:1;border:1px solid var(--line);border-radius:12px;padding:10px;
+text-align:center;background:rgba(0,0,0,.22)}
+.kpi .v{font-size:21px;font-weight:800;color:var(--cyan);text-shadow:0 0 12px rgba(0,212,255,.5)}
+.kpi .l{font-size:11px;color:var(--mut);margin-top:3px}
+.verdict{font-size:14px;font-weight:700;color:var(--mag);
+text-shadow:0 0 12px rgba(255,46,136,.5);margin-bottom:8px}
+.sub{font-size:12.5px;font-weight:700;color:var(--cyan);margin:12px 0 4px}
+.legend{display:flex;gap:16px;font-size:11px;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:5px;
+vertical-align:middle}
+.footer{margin-top:20px;font-size:11px;color:var(--mut);line-height:1.7;
+border-top:1px solid var(--line);padding-top:12px}
+svg text{font-family:inherit}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{overflow-x:auto}
+@media (max-width:900px){
+  body{min-width:0;padding:14px}
+  h1{font-size:22px}
+  .grid{grid-template-columns:1fr}
+  .card,.card.w12{grid-column:span 1}
+  .cols3,.cols2{grid-template-columns:1fr}
+  .kpis{flex-wrap:wrap}.kpi{min-width:40%}
+}
+</style></head><body>
+<div class="hero"><div class="tag">FOOTBALL ODDS INTELLIGENCE · DASHBOARD</div>
+<h1>盘口情报站<span class="vs">//</span>总览</h1>
+<div class="chips">
+<span class="chip">更新 <b>2026-06-11 22:52</b>（每 5 分钟自动刷新）</span>
+<span class="chip">跟踪中 <b>72</b> 场</span>
+<span class="chip">已完赛 <b>0</b> 场</span>
+</div></div>
+<div class="grid">
+<div class="card w12"><div class="kpis">
+<div class="kpi"><div class="v">72</div><div class="l">未开赛场次</div></div>
+<div class="kpi"><div class="v">0</div><div class="l">未结算模拟注单</div></div>
+<div class="kpi"><div class="v">0</div><div class="l">已结算注单</div></div>
+<div class="kpi"><div class="v pos">+0.00</div>
+<div class="l">模拟盈亏（每注本金 1）</div></div>
+</div></div>
+<div class="card w12"><div class="ct"><div class="ico">▶</div>
+<h2>未开赛 · 按开赛时间排序（近 24 场）</h2></div>
+<table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>快照</th><th>报告</th></tr>
+<tr><td>2026-06-12 03:00</td><td style='text-align:left;color:#dfe7ff'>墨西哥 vs 南非</td><td><span class="badge b-good">重点</span></td><td>8</td><td><a href="match_1_盘口解析.html" style="color:#00d4ff">打开报告 →</a></td></tr><tr><td>2026-06-12 10:00</td><td style='text-align:left;color:#dfe7ff'>韩国 vs 捷克</td><td><span class="badge b-good">重点</span></td><td>5</td><td><a href="match_2_盘口解析.html" style="color:#00d4ff">打开报告 →</a></td></tr><tr><td>2026-06-13 03:00</td><td style='text-align:left;color:#dfe7ff'>Canada vs Bosnia & Herzegovina</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 3 可生成</span></td></tr><tr><td>2026-06-13 09:00</td><td style='text-align:left;color:#dfe7ff'>USA vs Paraguay</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 4 可生成</span></td></tr><tr><td>2026-06-14 03:00</td><td style='text-align:left;color:#dfe7ff'>Qatar vs Switzerland</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 5 可生成</span></td></tr><tr><td>2026-06-14 06:00</td><td style='text-align:left;color:#dfe7ff'>巴西 vs 摩洛哥</td><td><span class="badge b-good">重点</span></td><td>3</td><td><span class="mut">analyze.py 6 可生成</span></td></tr><tr><td>2026-06-14 09:00</td><td style='text-align:left;color:#dfe7ff'>Haiti vs Scotland</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 7 可生成</span></td></tr><tr><td>2026-06-14 12:00</td><td style='text-align:left;color:#dfe7ff'>Australia vs Turkey</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 8 可生成</span></td></tr><tr><td>2026-06-15 01:00</td><td style='text-align:left;color:#dfe7ff'>Germany vs Curaçao</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 9 可生成</span></td></tr><tr><td>2026-06-15 04:00</td><td style='text-align:left;color:#dfe7ff'>Netherlands vs Japan</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 10 可生成</span></td></tr><tr><td>2026-06-15 07:00</td><td style='text-align:left;color:#dfe7ff'>Ivory Coast vs Ecuador</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 11 可生成</span></td></tr><tr><td>2026-06-15 10:00</td><td style='text-align:left;color:#dfe7ff'>Sweden vs Tunisia</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 12 可生成</span></td></tr><tr><td>2026-06-16 00:00</td><td style='text-align:left;color:#dfe7ff'>Spain vs Cape Verde</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 13 可生成</span></td></tr><tr><td>2026-06-16 03:00</td><td style='text-align:left;color:#dfe7ff'>Belgium vs Egypt</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 14 可生成</span></td></tr><tr><td>2026-06-16 06:00</td><td style='text-align:left;color:#dfe7ff'>Saudi Arabia vs Uruguay</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 15 可生成</span></td></tr><tr><td>2026-06-16 09:00</td><td style='text-align:left;color:#dfe7ff'>Iran vs New Zealand</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 16 可生成</span></td></tr><tr><td>2026-06-17 03:00</td><td style='text-align:left;color:#dfe7ff'>France vs Senegal</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 17 可生成</span></td></tr><tr><td>2026-06-17 06:00</td><td style='text-align:left;color:#dfe7ff'>Iraq vs Norway</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 18 可生成</span></td></tr><tr><td>2026-06-17 09:00</td><td style='text-align:left;color:#dfe7ff'>Argentina vs Algeria</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 19 可生成</span></td></tr><tr><td>2026-06-17 12:00</td><td style='text-align:left;color:#dfe7ff'>Austria vs Jordan</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 20 可生成</span></td></tr><tr><td>2026-06-18 01:00</td><td style='text-align:left;color:#dfe7ff'>Portugal vs DR Congo</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 21 可生成</span></td></tr><tr><td>2026-06-18 04:00</td><td style='text-align:left;color:#dfe7ff'>England vs Croatia</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 22 可生成</span></td></tr><tr><td>2026-06-18 07:00</td><td style='text-align:left;color:#dfe7ff'>Ghana vs Panama</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 23 可生成</span></td></tr><tr><td>2026-06-18 10:00</td><td style='text-align:left;color:#dfe7ff'>Uzbekistan vs Colombia</td><td><span class="badge b-mid">自动</span></td><td>3</td><td><span class="mut">analyze.py 24 可生成</span></td></tr></table>
+<div class="small">「重点」= 手动跟踪（含球队数据与自动报告）；「自动」= 全赛事密集跟踪。
+报告在开赛前 3 小时起自动生成并每 30 分钟更新；任何比赛可随时手动生成。</div></div>
+<div class="card w12"><div class="ct"><div class="ico">✓</div>
+<h2>已完赛 · 最近 12 场</h2></div>
+<table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>比分</th><th>快照</th>
+<th>报告</th></tr></table></div>
+</div><div class="footer">纯数据分析研究系统 · 不构成投注建议</div></body></html>
