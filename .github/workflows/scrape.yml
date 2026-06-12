@@ -32,8 +32,10 @@ jobs:
         run: python scrape.py
 
       - name: 同步网页到 docs
+        # 注意不带 --delete：CI 每次全新检出，app/reports 只含本轮生成的报告，
+        # docs 里已完赛比赛的历史报告必须保留（累积制）
         run: |
-          rsync -a --delete --exclude '.nojekyll' app/reports/ docs/
+          rsync -a app/reports/ docs/
           touch docs/.nojekyll
 
       - name: 提交数据与网页

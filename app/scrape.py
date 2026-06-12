@@ -278,7 +278,7 @@ def backfill_results(conn, now):
     """
     cutoff = (now - timedelta(hours=2, minutes=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
     rows = db.matches_needing_result(conn, cutoff, limit=10)
-    filled = 0
+    filled = []
     for m in rows:
         home_en = m["home_team_en"] or odds_api.to_english(m["home_team"])
         away_en = m["away_team_en"] or odds_api.to_english(m["away_team"])
@@ -292,7 +292,7 @@ def backfill_results(conn, now):
         if result:
             db.set_result(conn, m["id"], result[0], result[1], "espn")
             log.info("%s 赛果回填: %d-%d", label, result[0], result[1])
-            filled += 1
+            filled.append(m["id"])
         else:
             db.bump_result_attempts(conn, m["id"])
             log.warning("%s 暂未找到赛果（第 %d 次尝试，6 次后放弃）",
@@ -383,11 +383,18 @@ def main():
         except (Exception, SystemExit) as e:  # 无快照等情况跳过即可
             log.warning("%s 生成报告跳过: %s", label, e)
 
-    # 第四遍：回填已完赛比赛的赛果（校准数据闭环）+ 结算模拟注单
+    # 第四遍：回填赛果 + 结算注单 + 为完赛比赛生成定稿报告（含比分和结算）
     if not args.odds_only:
         try:
-            backfill_results(conn, now)
+            filled = backfill_results(conn, now)
             settle_paper_bets(conn)
+            for mid in filled:
+                try:
+                    from analyze import generate_html
+                    generate_html(mid)
+                    log.info("比赛 #%d 完赛定稿报告已生成", mid)
+                except (Exception, SystemExit) as e:
+                    log.warning("比赛 #%d 定稿报告跳过: %s", mid, e)
         except Exception as e:
             log.error("赛果回填/结算异常: %s", e)
             errors.append(f"backfill: {e}")

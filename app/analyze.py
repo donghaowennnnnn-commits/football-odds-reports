@@ -1106,7 +1106,11 @@ def build_index():
 
     def row_html(r, show_score=False):
         rid = r["id"]
-        report = out_dir / f"match_{rid}_盘口解析.html"
+        fname = f"match_{rid}_盘口解析.html"
+        # 报告可能在本轮生成目录，也可能在已发布的 docs 累积目录（云端）
+        report = out_dir / fname
+        if not report.exists():
+            report = PROJECT_DIR.parent / "docs" / fname
         if report.exists():
             link = (f'<a href="match_{rid}_盘口解析.html" style="color:#00d4ff">'
                     f'打开报告 →</a>')
