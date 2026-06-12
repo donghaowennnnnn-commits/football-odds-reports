@@ -885,6 +885,11 @@ def _html_rec(name, rec, lag_books):
     if rec.get("flow_note"):
         fc = "#2bd97c" if rec.get("flow_align") else "#ffb454"
         flow_html = f'<br/><span style="color:{fc}">{rec["flow_note"]}</span>'
+    if rec["win"] < rec["lose"]:
+        flow_html += ('<br/><span class="mut">▲ 注意: 该方向是模型分布中的'
+                      '少数派（胜率低于对侧）——推荐理由纯粹是价格最接近公平，'
+                      '属“低胜率·高赔率”入口，与波胆首选可能反向，两者同源于'
+                      '同一分布并不矛盾</span>')
     return (f'<div class="rec"><b>{name}推荐</b>: '
             f'<span class="pick">「{rec["label"]}」</span> @ {rec["odds"]:.2f}'
             f'（{rec["bookmaker"]}，全场最优价）{badge}<br/>'
