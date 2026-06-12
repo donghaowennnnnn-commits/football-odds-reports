@@ -225,6 +225,25 @@ def place_paper_bets(conn, match):
         # 波胆注额 = 其他玩法的 1/10（高赔率玩法小仓位，符合实际投注习惯）
         db.insert_paper_bet(conn, match["id"], "cs", top["score"], None,
                             None, None, round(top["fair"], 2), None, stake=0.1)
+
+    # 平行实验组：检测到职业资金强信号（让球线移动）时，额外按资金方向
+    # 落一注（该方向的最优价），与 EV 策略分账复盘——验证"该不该跟资金"
+    flow = res.get("flow") or {}
+    if flow.get("strong") and flow.get("direction") and res["ah"]:
+        side = "home" if flow["direction"] > 0 else "away"
+        cands = []
+        for r in res["ah"]:
+            if side == "home":
+                cands.append((r["ev_home"], f"主让 {r['line']:+.2f}",
+                              r["line"], r["home_odds"], r["bookmaker"]))
+            else:
+                cands.append((r["ev_away"], f"客受让 {(-r['line']) + 0.0:+.2f}",
+                              r["line"], r["away_odds"], r["bookmaker"]))
+        ev_, pick, line, odds_, bk = max(cands)
+        db.insert_paper_bet(conn, match["id"], "ah", pick, bk, line, side,
+                            odds_, ev_, strategy="flow")
+        log.info("%s 顺资金策略加注: %s @ %.2f（资金方向%s）",
+                 label, pick, odds_, "主队" if side == "home" else "客队")
     log.info("%s 模拟下注已落单（亚盘/大小球注额 1，波胆注额 0.1）", label)
 
 

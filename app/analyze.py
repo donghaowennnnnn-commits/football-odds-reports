@@ -518,6 +518,8 @@ def _money_flow(history):
 
     # 综合判定（“明确”一词只授予让球线移动这种强信号）
     line_moved = any("升盘" in s or "退盘" in s for s in flow["sharp"])
+    flow["direction"] = direction   # >0 资金偏主队, <0 偏客队
+    flow["strong"] = line_moved
     if direction > 0:
         side_txt = "主队"
     elif direction < 0:
@@ -686,6 +688,22 @@ def analyze(match_id):
 
     basis = _build_basis(conn, match, history, anchors, p_home, p_away)
     flow = _money_flow(history)
+
+    # 推荐 × 资金方向 一致性核对（亚盘）：
+    # 数学入口选价格，资金方向是另一根轴——冲突时显性警示而非暗中加权
+    ah_rec = recs.get("ah")
+    if ah_rec and flow["direction"] != 0:
+        rec_home = ah_rec["side"] == "home"
+        flow_home = flow["direction"] > 0
+        strength = "强信号·让球线移动" if flow["strong"] else "温和信号"
+        if rec_home == flow_home:
+            ah_rec["flow_note"] = f"✓ 与职业资金方向一致（{strength}），两轴互证"
+            ah_rec["flow_align"] = True
+        else:
+            ah_rec["flow_note"] = (
+                f"⚠ 与职业资金方向背离（资金偏向{'主队' if flow_home else '客队'}，"
+                f"{strength}）——本推荐取“价格最优”，方向派的成绩见顺资金策略复盘")
+            ah_rec["flow_align"] = False
     paper_bets = [dict(b) for b in db.get_paper_bets(conn, match_id)]
 
     # 走势序列（HTML 报告的曲线图用）
@@ -863,11 +881,15 @@ def _html_rec(name, rec, lag_books):
     if rec["ev"] > 0 and rec["bookmaker"] in lag_books:
         note = ('<br/><span class="pos">↳ 成色: 滞后旧价（锚点已动该公司未跟）'
                 '——真实捡漏窗口，可能随时关闭</span>')
+    flow_html = ""
+    if rec.get("flow_note"):
+        fc = "#2bd97c" if rec.get("flow_align") else "#ffb454"
+        flow_html = f'<br/><span style="color:{fc}">{rec["flow_note"]}</span>'
     return (f'<div class="rec"><b>{name}推荐</b>: '
             f'<span class="pick">「{rec["label"]}」</span> @ {rec["odds"]:.2f}'
             f'（{rec["bookmaker"]}，全场最优价）{badge}<br/>'
             f'<span class="mut">模型概率: 赢 {rec["win"]:.1%} / 走 {rec["push"]:.1%}'
-            f' / 输 {rec["lose"]:.1%} ｜ EV {rec["ev"]:+.1f}%</span>{note}</div>')
+            f' / 输 {rec["lose"]:.1%} ｜ EV {rec["ev"]:+.1f}%</span>{flow_html}{note}</div>')
 
 
 def _ev_cls(v):
@@ -975,15 +997,18 @@ def build_html(res, out_path):
             pnl_html = (f'<span class="{"pos" if b["pnl"] > 0 else "neg"}">'
                         f'{b["pnl"]:+.2f}</span>' if settled else "—")
             stake = b["stake"] if b["stake"] is not None else 1.0
+            strat = ("顺资金" if (b["strategy"] if "strategy" in b.keys()
+                     else b.get("strategy")) == "flow" else "EV最优")
             rows += (f"<tr><td>{MKT.get(b['market'])}</td><td>{b['pick']}</td>"
+                     f"<td>{strat}</td>"
                      f"<td>{b['bookmaker'] or '模型公平价'}</td><td>{b['odds']:.2f}</td>"
                      f"<td>{stake:g}</td><td>{fmt_local(b['placed_at'])}</td>"
                      f"<td>{b['result'] or '未结算'}</td><td>{pnl_html}</td></tr>")
         summary = (f'<div class="rec">已结算 {n_settled} 注，合计盈亏 '
                    f'<b class="{"pos" if total_pnl >= 0 else "neg"}">{total_pnl:+.2f}</b>'
                    f'</div>' if n_settled else "")
-        body = (f"<table><tr><th>玩法</th><th>选择</th><th>公司</th><th>赔率</th>"
-                f"<th>注额</th><th>落单时间</th><th>状态</th><th>盈亏</th></tr>"
+        body = (f"<table><tr><th>玩法</th><th>选择</th><th>策略</th><th>公司</th>"
+                f"<th>赔率</th><th>注额</th><th>落单时间</th><th>状态</th><th>盈亏</th></tr>"
                 f"{rows}</table>{summary}")
     else:
         body = ('<div class="rec mut">尚未落单——系统将在开赛前 3 小时的首轮抓取时，'
@@ -991,7 +1016,10 @@ def build_html(res, out_path):
                 '赛果回填后自动结算。</div>')
     P.append(f"""<div class="card"><div class="ct"><div class="ico">※</div>
 <h2>模拟下注 · 复盘数据，非真实投注</h2></div>{body}
-<div class="small">注额规则: 亚盘/大小球每注 1，<b>波胆每注 0.1</b>——高赔率玩法
+<div class="small">策略说明: <b>EV最优</b> = 全场损耗最小入口（纯数学）；
+<b>顺资金</b> = 检测到让球线移动的强信号时按职业资金方向加注（平行实验组）——
+两条策略分账复盘，用数据裁决“该不该跟资金方向”。
+注额规则: 亚盘/大小球每注 1，<b>波胆每注 0.1</b>——高赔率玩法
 按现实投注习惯采用小仓位，与前文“波胆仓位应远小于亚盘/大小球”的提示一致。
 波胆按模型公平赔率记账（市价不可采集），其复盘指标为命中率校准；
 亚盘/大小球按落单时刻真实报价记账。<br/>

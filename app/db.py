@@ -92,6 +92,10 @@ def _migrate(conn):
     if pb_cols and "stake" not in pb_cols:
         # 注额列：波胆 0.1，其余 1（高赔率玩法小仓位，符合实际投注习惯）
         conn.execute("ALTER TABLE paper_bets ADD COLUMN stake REAL NOT NULL DEFAULT 1")
+    if pb_cols and "strategy" not in pb_cols:
+        # 策略列：ev=EV最优入口；flow=顺职业资金方向（平行实验组）
+        conn.execute("ALTER TABLE paper_bets ADD COLUMN strategy TEXT NOT NULL"
+                     " DEFAULT 'ev'")
     conn.commit()
 
 
@@ -212,12 +216,12 @@ def get_paper_bets(conn, match_id):
 
 
 def insert_paper_bet(conn, match_id, market, pick, bookmaker, line, side,
-                     odds, ev, stake=1.0):
+                     odds, ev, stake=1.0, strategy="ev"):
     conn.execute(
         "INSERT INTO paper_bets (match_id, placed_at, market, pick, bookmaker,"
-        " line, side, odds, ev, stake) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        " line, side, odds, ev, stake, strategy) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         (match_id, utcnow_iso(), market, pick, bookmaker, line, side, odds, ev,
-         stake),
+         stake, strategy),
     )
     conn.commit()
 

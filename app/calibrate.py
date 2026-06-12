@@ -149,14 +149,18 @@ def main():
 
     # 模拟下注复盘
     bets = conn.execute(
-        "SELECT market, result, pnl, stake FROM paper_bets WHERE result IS NOT NULL"
+        "SELECT market, strategy, result, pnl, stake FROM paper_bets"
+        " WHERE result IS NOT NULL"
     ).fetchall()
     if bets:
-        print("\n=== 模拟下注复盘（亚盘/大小球注 1，波胆注 0.1）===")
+        print("\n=== 模拟下注复盘（按策略分账；亚盘/大小球注 1，波胆注 0.1）===")
         by_mkt = {}
         for b in bets:
-            by_mkt.setdefault(b["market"], []).append(b)
-        names = {"ah": "亚盘", "ou": "大小球", "cs": "波胆"}
+            strat = b["strategy"] or "ev"
+            key = b["market"] if strat == "ev" else f"{b['market']}·顺资金"
+            by_mkt.setdefault(key, []).append(b)
+        names = {"ah": "亚盘", "ou": "大小球", "cs": "波胆",
+                 "ah·顺资金": "亚盘·顺资金"}
         for mk, rows_ in sorted(by_mkt.items()):
             n_ = len(rows_)
             wins = sum(1 for b in rows_ if b["pnl"] > 0)
