@@ -871,7 +871,12 @@ def _svg_chart(series_list, width=640, height=200):
 
 
 def _html_rec(name, rec, lag_books):
-    if rec["ev"] > 0:
+    if rec["ev"] > 15:
+        # 错盘护栏: EV 好到不真实，大概率是数据毛刺或庄家错盘——
+        # 错盘注单可被"明显错误"条款单方面作废，不应当作机会推荐
+        badge = ('<span class="badge b-warn">⚠ 疑似错盘或数据异常 · '
+                 '先核实可成交性，勿当作机会</span>')
+    elif rec["ev"] > 0:
         badge = '<span class="badge b-good">推荐 · 正期望</span>'
     elif rec["ev"] > -2.5:
         badge = '<span class="badge b-mid">可参与 · 损耗在抽水内</span>'
