@@ -1100,6 +1100,21 @@ def build_index():
     fin_rows = "".join(row_html(r, show_score=True)
                        for r in reversed(finished[-20:]))
 
+    # API 额度（quota.json 由抓取时落盘）
+    quota_html = ""
+    qf = PROJECT_DIR / "quota.json"
+    if qf.exists():
+        try:
+            q = json.loads(qf.read_text(encoding="utf-8"))
+            rem = q.get("remaining", 0)
+            qc = "#2bd97c" if rem > 150 else ("#ffb454" if rem > 60 else "#ff5d6c")
+            quota_html = (
+                f'<div class="kpi"><div class="v" style="color:{qc};'
+                f'text-shadow:0 0 12px {qc}66">{rem}</div>'
+                f'<div class="l">API 额度剩余 · {fmt_local(q["updated"])}</div></div>')
+        except Exception:
+            pass
+
     pnl_cls = "pos" if bets["pnl"] >= 0 else "neg"
     html = f"""<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
 <meta http-equiv="refresh" content="300">
@@ -1119,6 +1134,7 @@ def build_index():
 <div class="kpi"><div class="v">{bets['n']}</div><div class="l">已结算注单</div></div>
 <div class="kpi"><div class="v {pnl_cls}">{bets['pnl']:+.2f}</div>
 <div class="l">模拟盈亏（亚盘/大小球注1，波胆注0.1）</div></div>
+{quota_html}
 </div></div>
 <div class="card w12"><div class="ct"><div class="ico">▶</div>
 <h2>未开赛 · 最近 24 场（共 {len(upcoming)} 场待赛，新场次随官方赛程自动补入）</h2></div>
