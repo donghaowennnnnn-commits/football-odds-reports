@@ -1,0 +1,45 @@
+name: scrape
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # 每 30 分钟（UTC，GitHub 可能有数分钟抖动）
+  workflow_dispatch:          # 支持手动触发
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 安装依赖
+        run: pip install -q -r app/requirements.txt
+
+      - name: 抓取 + 生成报告 + 回填赛果 + 结算注单
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        working-directory: app
+        run: python scrape.py
+
+      - name: 同步网页到 docs
+        run: |
+          rsync -a --delete --exclude '.nojekyll' app/reports/ docs/
+          touch docs/.nojekyll
+
+      - name: 提交数据与网页
+        run: |
+          git config user.name "football-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "auto scrape $(date -u '+%m-%d %H:%M')"
+          git push

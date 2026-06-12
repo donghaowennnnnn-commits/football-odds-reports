@@ -1,0 +1,34 @@
+name: calibrate
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 每天 01:00 UTC = 北京时间 09:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 安装依赖
+        run: pip install -q -r app/requirements.txt
+
+      - name: 校准验证（赛果对账 + 教训回流 + 模拟下注复盘）
+        working-directory: app
+        run: python calibrate.py
+
+      - name: 提交校准结果
+        run: |
+          git config user.name "football-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "daily calibrate $(date -u '+%m-%d')"
+          git push

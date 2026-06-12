@@ -1,0 +1,4 @@
+app/logs/
+app/reports/
+__pycache__/
+app/.env
