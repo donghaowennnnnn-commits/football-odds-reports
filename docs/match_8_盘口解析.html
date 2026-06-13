@@ -135,7 +135,7 @@ svg text{font-family:inherit}
 <div class="cols3">
 <div><div class="sub">① 市场锚点（主依据，模型全部输入）</div><ul><li>pinnacle: 主胜 18.7% / 平 24.9% / 客胜 56.4%（抽水 3.7%）</li><li>betfair_ex_eu: 主胜 18.0% / 平 25.5% / 客胜 56.6%（抽水 0.4%）</li><li>做市商与交易所的主胜概率差 0.7 个百分点——两锚点高度一致，市场共识可信度高</li></ul></div>
 <div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul><li>观察窗口内共 13 个快照时点：</li><li>Pinnacle 主胜赔率 5.12 → 4.95（-3.3%），走低——资金温和流向主队</li><li>让球线稳定在 +0.75，主队水位 1.96 → 1.92（-2.0%，向主队方向收紧）</li></ul></div>
-<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>本场未抓取球队近况（非手动跟踪的重点场），可用 track.py add 升级后获得</li></ul></div></div>
+<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>Australia: 近 10 场 5胜1平4负，进 13 失 10（积 16 分）</li><li>Turkey: 近 10 场 8胜1平1负，进 25 失 13（积 25 分）</li></ul></div></div>
 <div style="border-top:1px dashed rgba(0,212,255,.25);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
@@ -143,7 +143,7 @@ svg text{font-family:inherit}
 <div class="cols2">
 <div><div class="sub">职业资金方向</div><ul><li>让球线稳定 +0.75，主队水位收紧 -2.0%——资金温和流向主队</li><li>Pinnacle 主胜赔率 5.12 → 4.95（-3.3%，走低（向主队））</li><li>Betfair 交易所同向移动——资金流向获独立确认，可信度高</li></ul></div>
 <div><div class="sub">庄家行为检测</div><ul><li>betsson: 锚点移动 -3.3% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>betvictor: 锚点移动 -3.3% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>coral: 锚点移动 -3.3% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>onexbet: 与市场共识反向调价（+1.6% vs 锚点 -3.3%）——疑似诱导性定价或本地风控，对其报价保持警惕</li><li>skybet: 锚点移动 -3.3% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>unibet: 与市场共识反向调价（+15.0% vs 锚点 -3.3%）——疑似诱导性定价或本地风控，对其报价保持警惕</li><li>williamhill: 锚点移动 -3.3% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li></ul></div></div>
-<div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
+<div class="rec" style="margin-top:14px">交叉验证: 纸面近况与市场方向<b>一致</b>，相互印证；近况信息已包含在价格中，不重复计入模型。</div><div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
 进价格，重复计入等于二次计权；②③④层用于解读与预警，不进入推荐计算。
 真实投注量不可见，资金流向为价格行为的间接推断，“疑似诱导”仅为模式标记。</div></div></div><div class="footer">本报告为纯数学推导（市场赔率去水 + 泊松模型），
 不构成投注建议。模型以基准公司为锚，EV 为相对锚点的偏差；伤停、阵容等场外信息未纳入模型。
