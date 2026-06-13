@@ -1110,6 +1110,25 @@ def build_index():
     n_open = conn.execute(
         "SELECT COUNT(*) n FROM paper_bets WHERE result IS NULL").fetchone()["n"]
 
+    # 推荐成功率：只统计系统推荐（EV 最优策略）的已结算注单，按市场分。
+    # 成功 = 盈利注（含赢半），失败 = 亏损注（含输半），走盘不计入分母。
+    def market_stats(market):
+        rows = conn.execute(
+            "SELECT pnl, stake FROM paper_bets WHERE result IS NOT NULL"
+            " AND strategy='ev' AND market=?", (market,)).fetchall()
+        wins = sum(1 for r in rows if r["pnl"] > 0)
+        loses = sum(1 for r in rows if r["pnl"] < 0)
+        decided = wins + loses
+        pnl = sum(r["pnl"] for r in rows)
+        invested = sum((r["stake"] or 1) for r in rows)
+        return {
+            "n": len(rows), "wins": wins, "loses": loses, "decided": decided,
+            "rate": (wins / decided * 100) if decided else None,
+            "pnl": pnl, "roi": (pnl / invested * 100) if invested else None,
+        }
+
+    ah_stat, ou_stat = market_stats("ah"), market_stats("ou")
+
     upcoming, finished = [], []
     for r in matches:
         (upcoming if r["kickoff_utc"] > now_iso else finished).append(r)
@@ -1158,6 +1177,34 @@ def build_index():
             pass
 
     pnl_cls = "pos" if bets["pnl"] >= 0 else "neg"
+
+    # 推荐战绩卡：让球盘 / 大小球 成功率（只算 EV 推荐注单）
+    def stat_block(title, s):
+        if not s["decided"]:
+            inner = ('<div class="v mut">—</div>'
+                     '<div class="l">尚无已结算推荐</div>')
+        else:
+            rc = "#2bd97c" if s["rate"] >= 50 else "#ff5d6c"
+            roi_cls = "pos" if (s["roi"] or 0) >= 0 else "neg"
+            inner = (
+                f'<div class="v" style="color:{rc};text-shadow:0 0 12px {rc}66">'
+                f'{s["rate"]:.0f}%</div>'
+                f'<div class="l">{title}成功率 · {s["wins"]}胜{s["loses"]}负'
+                f'（{s["n"]}注）｜ ROI <span class="{roi_cls}">'
+                f'{s["roi"]:+.1f}%</span></div>')
+        return f'<div class="kpi">{inner}</div>'
+
+    total_decided = ah_stat["decided"] + ou_stat["decided"]
+    sample_note = ("" if total_decided >= 20 else
+                   '<div class="small">⚠ 样本不足（&lt;20 注），成功率波动极大仅供观察；'
+                   '统计学有效结论需积累至 20+ 注后参考每日校准报告。</div>')
+    perf_card = f"""<div class="card w12"><div class="ct"><div class="ico">⌖</div>
+<h2>推荐战绩 · 仅统计系统推荐（EV 最优）注单</h2></div>
+<div class="kpis">{stat_block("让球盘", ah_stat)}{stat_block("大小球", ou_stat)}</div>
+{sample_note}
+<div class="small">成功率 = 盈利注 ÷（盈利注＋亏损注），走盘不计入；含赢半/输半按盈亏方向归类。
+此处仅反映“推荐方向命中率”，真实价值看 ROI——成功率高而 ROI 为负属正常（赔率＜2 时）。</div></div>"""
+
     html = f"""<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1178,6 +1225,7 @@ def build_index():
 <div class="l">模拟盈亏（亚盘/大小球注1，波胆注0.1）</div></div>
 {quota_html}
 </div></div>
+{perf_card}
 <div class="card w12"><div class="ct"><div class="ico">▶</div>
 <h2>未开赛 · 最近 24 场（共 {len(upcoming)} 场待赛，新场次随官方赛程自动补入）</h2></div>
 <table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>快照</th><th>报告</th></tr>
