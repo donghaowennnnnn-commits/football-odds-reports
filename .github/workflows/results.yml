@@ -1,50 +1,41 @@
-name: scrape
+name: results
 on:
   schedule:
-    - cron: '*/30 * * * *'   # 每 30 分钟（UTC，GitHub 可能有数分钟抖动）
-  workflow_dispatch:          # 支持手动触发
+    - cron: '*/15 * * * *'   # 每 15 分钟：只查完赛结果（纯 ESPN，零赔率额度）
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: publish
+  group: publish          # 与 scrape 共用，串行化避免推送竞争
   cancel-in-progress: false
 
 jobs:
-  scrape:
+  results:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: 安装依赖
         run: pip install -q -r app/requirements.txt
-
-      - name: 抓取 + 生成报告 + 回填赛果 + 结算注单
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      - name: 回填赛果 + 结算 + 刷新页面（零额度）
         working-directory: app
-        run: python scrape.py
-
+        run: python scrape.py --results-only
       - name: 同步网页到 docs
-        # 注意不带 --delete：CI 每次全新检出，app/reports 只含本轮生成的报告，
-        # docs 里已完赛比赛的历史报告必须保留（累积制）
         run: |
           rsync -a app/reports/ docs/
           touch docs/.nojekyll
-
-      - name: 提交数据与网页（带 rebase 重试）
+      - name: 提交（带 rebase 重试，防与 scrape 竞争）
         run: |
           git config user.name "football-bot"
           git config user.email "bot@users.noreply.github.com"
           git add -A
           git diff --cached --quiet && exit 0
-          git commit -m "auto scrape $(date -u '+%m-%d %H:%M')"
+          git commit -m "results check $(date -u '+%m-%d %H:%M')"
           for i in 1 2 3; do
             git pull --rebase -X ours && git push && exit 0
             sleep 5

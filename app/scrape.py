@@ -276,7 +276,10 @@ def backfill_results(conn, now):
 
     赛果是校准验证（calibrate.py）的原料：模型预测 + 实际比分 = 可对账。
     """
-    cutoff = (now - timedelta(hours=2, minutes=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    # 从开赛后 110 分钟起就开始尝试（常规赛最早可能完赛的时刻）。
+    # ESPN 仅在 state="post"（真正终场，含加时/点球）时才返回比分，
+    # 所以提前尝试是安全的：没结束就返回空、下个周期再问，无需我们预测完赛时刻。
+    cutoff = (now - timedelta(minutes=110)).strftime("%Y-%m-%dT%H:%M:%SZ")
     rows = db.matches_needing_result(conn, cutoff, limit=10)
     filled = []
     for m in rows:
@@ -305,10 +308,33 @@ def main():
     parser.add_argument("--force", action="store_true", help="忽略频率限制")
     parser.add_argument("--match-id", type=int, help="只处理指定比赛")
     parser.add_argument("--odds-only", action="store_true", help="跳过球队数据")
+    parser.add_argument("--results-only", action="store_true",
+                        help="只回填赛果+结算+刷新页面（纯 ESPN，零赔率额度）")
     args = parser.parse_args()
 
     setup_logging()
     conn = db.connect()
+
+    # 轻量结果模式：高频运行（每 15min），只查完赛结果，不碰赔率 API。
+    # 让已完赛比赛的比分/战绩更快上页，零额度成本。
+    if args.results_only:
+        now = datetime.now(timezone.utc)
+        filled = backfill_results(conn, now)
+        settle_paper_bets(conn)
+        for mid in filled:
+            try:
+                from analyze import generate_html
+                generate_html(mid)
+            except (Exception, SystemExit) as e:
+                log.warning("比赛 #%d 定稿报告跳过: %s", mid, e)
+        try:
+            from analyze import build_index
+            build_index()
+        except Exception as e:
+            log.warning("刷新总览失败: %s", e)
+        log.info("结果检查完成：本轮回填 %d 场", len(filled))
+        return
+
     run_id = db.start_run(conn)
     now = datetime.now(timezone.utc)
     errors = []

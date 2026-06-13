@@ -194,7 +194,7 @@ def matches_needing_result(conn, kickoff_before_iso, limit=10):
     """已开赛但还没有比分的比赛（含被动存档），跟踪中的优先。"""
     return conn.execute(
         "SELECT * FROM matches WHERE home_score IS NULL AND kickoff_utc < ?"
-        " AND result_attempts < 6"
+        " AND result_attempts < 20"   # 提前到110min起每15min一问，点球赛需更多次
         " ORDER BY (status != 'passive') DESC, kickoff_utc DESC LIMIT ?",
         (kickoff_before_iso, limit),
     ).fetchall()
