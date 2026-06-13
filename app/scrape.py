@@ -21,7 +21,7 @@ from logging.handlers import RotatingFileHandler
 import db
 from config import (
     AUTO_TRACK_SPORTS, INTERVAL_FAR_MIN, INTERVAL_NEAR_MIN, LOG_DIR,
-    ODDS_API_KEY, REPORT_WINDOW_HOURS, TEAM_STATS_INTERVAL_MIN,
+    ODDS_API_KEY, REPORT_WINDOW_HOURS, TEAM_STATS_INTERVAL_MIN, TOP_TEAMS,
     WINDOW_FAR_HOURS, WINDOW_NEAR_HOURS,
 )
 from sources import dongqiudi, espn, fbref, odds_api
@@ -339,6 +339,19 @@ def main():
     now = datetime.now(timezone.utc)
     errors = []
     scraped = 0
+
+    # 自动升格：涉及 FIFA Top10 强队的未开赛比赛标为"重点"（获球队数据+标记）
+    promoted = 0
+    for m in db.list_matches(conn, status="passive"):
+        if parse_utc(m["kickoff_utc"]) <= now:
+            continue
+        names = {m["home_team_en"], m["away_team_en"],
+                 m["home_team"], m["away_team"]}
+        if names & TOP_TEAMS:
+            db.set_status(conn, m["id"], "tracking")
+            promoted += 1
+    if promoted:
+        log.info("自动升格 %d 场（含 Top10 强队）为重点", promoted)
 
     matches = db.list_matches(conn, status="tracking")
     n_manual = len(matches)

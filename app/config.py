@@ -50,6 +50,13 @@ REPORT_WINDOW_HOURS = 24       # 开赛前 24 小时起自动生成/刷新 HTML 
 # （球队数据和自动 PDF 仍只针对手动 add 的比赛）
 AUTO_TRACK_SPORTS = ["soccer_fifa_world_cup"]
 
+# FIFA 世界排名前 10（英文名，对齐 The Odds API）。涉及任一强队的比赛
+# 自动升格为"重点"（抓球队数据 + 重点标记）。排名静态、可随官方更新调整。
+TOP_TEAMS = {
+    "Argentina", "Spain", "France", "England", "Brazil",
+    "Portugal", "Netherlands", "Belgium", "Italy", "Germany",
+}
+
 # API 额度低于此值时弹 macOS 系统通知（每 24 小时最多一次）
 # 全量密集模式日耗约 75~80，150 约等于提前 2 天预警，便于及时更换 key
 QUOTA_WARN_THRESHOLD = 150
