@@ -423,14 +423,8 @@ def _build_fundamentals(conn, match):
                      "agf": fa["gf"] / fa["n"], "aga": fa["ga"] / fa["n"]},
         }
 
-    # 人工补充（战术/球星等编辑性内容，纯数据回路无法生成，可选）
-    note_md = None
-    nf = PROJECT_DIR / "notes" / f"{match['id']}.md"
-    if nf.exists():
-        note_md = nf.read_text(encoding="utf-8").strip()
-
     return {"venue": venue, "weather": weather, "advantages": adv,
-            "form_cmp": form_cmp, "note_md": note_md}
+            "form_cmp": form_cmp}
 
 
 def _build_basis(conn, match, history, anchors, p_home, p_away):
@@ -1057,20 +1051,13 @@ def build_html(res, out_path):
             f'<tr><td>{a["name"]}</td><td>{a["w"]}胜{a["d"]}平{a["l"]}负</td>'
             f'<td>{a["agf"]:.1f}</td><td>{a["aga"]:.1f}</td><td>{a["points"]}</td></tr>'
             '</table>')
-    if fund["note_md"]:
-        note_html = fund["note_md"].replace("\n", "<br/>")
-        fb.append(f'<div class="sub">📝 战术 / 球星补充（人工）</div>'
-                  f'<div class="rec">{note_html}</div>')
     if fb:
-        note_hint = ("" if fund["note_md"] else
-                     '<div class="small">战术体系、球星状态等编辑性内容需人工/专家'
-                     '补充（纯数据回路不臆造），可在 notes/&lt;比赛ID&gt;.md 中添加后自动并入。</div>')
         P.append(f"""<div class="card w12"><div class="ct"><div class="ico">◉</div>
 <h2>基本面对比 · 助读（不消耗赔率额度，独立于模型计算）</h2></div>
 {"".join(fb)}
 <div class="small">本卡为事实/可计算数据（球场、赛日天气、海拔、主场、近况攻防），
-独立于盘口模型、仅供理解双方；模型概率不使用本卡信息（已被市场价格消化）。</div>
-{note_hint}</div>""")
+来自 ESPN 及公开数据源，独立于盘口模型、仅供理解双方；模型概率不使用本卡信息
+（已被市场价格消化）。</div></div>""")
 
     # 亚盘
     rows = "".join(
