@@ -96,6 +96,9 @@ def _migrate(conn):
         # 策略列：ev=EV最优入口；flow=顺职业资金方向（平行实验组）
         conn.execute("ALTER TABLE paper_bets ADD COLUMN strategy TEXT NOT NULL"
                      " DEFAULT 'ev'")
+    for col in ("venue_name", "venue_city"):  # 球场缓存（静态，抓一次即可）
+        if col not in cols:
+            conn.execute(f"ALTER TABLE matches ADD COLUMN {col} TEXT")
     conn.commit()
 
 
@@ -171,6 +174,12 @@ def set_event(conn, match_id, sport_key, event_id, home_en=None, away_en=None):
 def update_kickoff(conn, match_id, kickoff_utc):
     conn.execute("UPDATE matches SET kickoff_utc=? WHERE id=?",
                  (kickoff_utc, match_id))
+    conn.commit()
+
+
+def set_venue(conn, match_id, venue_name, venue_city):
+    conn.execute("UPDATE matches SET venue_name=?, venue_city=? WHERE id=?",
+                 (venue_name, venue_city, match_id))
     conn.commit()
 
 

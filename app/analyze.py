@@ -25,6 +25,7 @@ from pathlib import Path
 import db
 from config import PROJECT_DIR, TZ
 from sources.odds_api import to_chinese
+from sources import espn, venues
 
 MAX_GOALS = 12
 # 锚点：Pinnacle（职业盘）+ Betfair 交易所（真实买卖撮合价），加权平均。
@@ -356,6 +357,80 @@ def _team_form(conn, team):
     ga = sum(_int(m.get("ga")) for m in ms)
     return {"w": w, "d": d, "l": l, "gf": gf, "ga": ga,
             "points": 3 * w + d, "n": len(ms)}
+
+
+def _build_fundamentals(conn, match):
+    """基本面对比（不消耗赔率 API）：球场 / 天气 / 海拔 / 主场 / 攻防近况 +
+    可选人工补充（战术/球星，notes/<id>.md）。全部为事实数据或可计算项。"""
+    home, away = match["home_team"], match["away_team"]
+    home_en = match["home_team_en"] or to_chinese(home)
+    away_en = match["away_team_en"] or to_chinese(away)
+
+    # 球场（缓存优先，否则查 ESPN 赛程板）
+    vname, vcity = match["venue_name"], match["venue_city"]
+    if not vname:
+        try:
+            got = espn.get_match_venue(home_en, away_en, match["kickoff_utc"])
+            if got:
+                vname, vcity = got
+                db.set_venue(conn, match["id"], vname, vcity)
+        except Exception:
+            pass
+
+    venue = venues.lookup(vname, vcity) if vname else None
+    weather = None
+    if venue:
+        ymd = datetime.strptime(match["kickoff_utc"], "%Y-%m-%dT%H:%M:%SZ").strftime(
+            "%Y-%m-%d")
+        weather = venues.get_weather(venue["lat"], venue["lon"], ymd)
+
+    # 主场 / 海拔优势（可计算）
+    adv = []
+    if venue:
+        vc = venue.get("country")
+        # 东道主在本国作战
+        for team_en, team_zh, who in ((match["home_team_en"], home, "主队"),
+                                      (match["away_team_en"], away, "客队")):
+            if team_en and vc and team_en == vc:
+                adv.append(f"{who} {to_chinese(team_zh)} 为东道主、本土作战，"
+                           f"享主场氛围与无旅行/时差消耗")
+        if venue["alt"] >= 1500:
+            adv.append(f"高海拔球场（{venue['alt']} 米）：体能消耗与传球轨迹受影响，"
+                       f"对非高原球队不利，墨西哥等高原球队适应更佳")
+        if "顶棚" in (venue.get("roof") or "") and weather and \
+                (weather.get("rain") or 0) >= 50:
+            adv.append("可开合顶棚球场，雨天可闭顶，天气影响有限")
+
+    # 攻防近况对比（优先用已抓的 team_stats；非重点场即时取 ESPN，免费）
+    fh, fa = _team_form(conn, home), _team_form(conn, away)
+    if not (fh and fa):
+        for team_zh, team_en, slot in ((home, home_en, "h"), (away, away_en, "a")):
+            if (slot == "h" and fh) or (slot == "a" and fa):
+                continue
+            try:
+                rec = espn.get_recent_matches(team_en)
+                db.insert_team_stats(conn, team_zh, "espn",
+                                     json.dumps(rec, ensure_ascii=False), None)
+            except Exception:
+                pass
+        fh, fa = _team_form(conn, home), _team_form(conn, away)
+    form_cmp = None
+    if fh and fa:
+        form_cmp = {
+            "home": {"name": to_chinese(home), **fh,
+                     "agf": fh["gf"] / fh["n"], "aga": fh["ga"] / fh["n"]},
+            "away": {"name": to_chinese(away), **fa,
+                     "agf": fa["gf"] / fa["n"], "aga": fa["ga"] / fa["n"]},
+        }
+
+    # 人工补充（战术/球星等编辑性内容，纯数据回路无法生成，可选）
+    note_md = None
+    nf = PROJECT_DIR / "notes" / f"{match['id']}.md"
+    if nf.exists():
+        note_md = nf.read_text(encoding="utf-8").strip()
+
+    return {"venue": venue, "weather": weather, "advantages": adv,
+            "form_cmp": form_cmp, "note_md": note_md}
 
 
 def _build_basis(conn, match, history, anchors, p_home, p_away):
@@ -705,6 +780,7 @@ def analyze(match_id):
                 f"{strength}）——本推荐取“价格最优”，方向派的成绩见顺资金策略复盘")
             ah_rec["flow_align"] = False
     paper_bets = [dict(b) for b in db.get_paper_bets(conn, match_id)]
+    fundamentals = _build_fundamentals(conn, match)
 
     # 走势序列（HTML 报告的曲线图用）
     series = {}
@@ -722,6 +798,7 @@ def analyze(match_id):
     return {
         "match": match, "fetched_at": anchor_fetched, "base_book": anchor_desc,
         "basis": basis, "flow": flow, "paper_bets": paper_bets, "series": series,
+        "fundamentals": fundamentals,
         "margin": margin,
         "devig": devig,
         "calibration_n": cfg.get("n_matches"),
@@ -953,6 +1030,48 @@ def build_html(res, out_path):
 <h2>盘口走势 · 职业资金的脚印</h2></div>
 {_svg_chart(sl)}<div class="legend">{legend}</div></div>""")
 
+    # 基本面对比（球场/天气/海拔/主场/攻防近况 + 可选人工补充）
+    fund = res["fundamentals"]
+    fb = []
+    v, w = fund["venue"], fund["weather"]
+    if v:
+        info = (f"{v['stadium']} · {v['city']} ｜ 海拔 {v['alt']} 米 ｜ "
+                f"{v['roof']} ｜ 容量约 {v['cap']} 千")
+        fb.append(f'<div class="sub">🏟 球场</div><ul><li>{info}</li></ul>')
+    if w and w.get("tmax") is not None:
+        wt = (f"赛日 {w['tmin']:.0f}~{w['tmax']:.0f}°C ｜ 降水概率 "
+              f"{w.get('rain', 0):.0f}% ｜ 最大风速 {w.get('wind', 0):.0f} km/h")
+        fb.append(f'<div class="sub">⛅ 天气（赛日预报）</div><ul><li>{wt}</li></ul>')
+    if fund["advantages"]:
+        adv = "".join(f"<li>{a}</li>" for a in fund["advantages"])
+        fb.append(f'<div class="sub">⚑ 场地 / 主场要素</div><ul>{adv}</ul>')
+    fc = fund["form_cmp"]
+    if fc:
+        h, a = fc["home"], fc["away"]
+        fb.append(
+            '<div class="sub">📊 近况攻防对比（近 N 场场均）</div>'
+            '<table><tr><th>球队</th><th>战绩</th><th>场均进球</th>'
+            '<th>场均失球</th><th>积分</th></tr>'
+            f'<tr><td>{h["name"]}</td><td>{h["w"]}胜{h["d"]}平{h["l"]}负</td>'
+            f'<td>{h["agf"]:.1f}</td><td>{h["aga"]:.1f}</td><td>{h["points"]}</td></tr>'
+            f'<tr><td>{a["name"]}</td><td>{a["w"]}胜{a["d"]}平{a["l"]}负</td>'
+            f'<td>{a["agf"]:.1f}</td><td>{a["aga"]:.1f}</td><td>{a["points"]}</td></tr>'
+            '</table>')
+    if fund["note_md"]:
+        note_html = fund["note_md"].replace("\n", "<br/>")
+        fb.append(f'<div class="sub">📝 战术 / 球星补充（人工）</div>'
+                  f'<div class="rec">{note_html}</div>')
+    if fb:
+        note_hint = ("" if fund["note_md"] else
+                     '<div class="small">战术体系、球星状态等编辑性内容需人工/专家'
+                     '补充（纯数据回路不臆造），可在 notes/&lt;比赛ID&gt;.md 中添加后自动并入。</div>')
+        P.append(f"""<div class="card w12"><div class="ct"><div class="ico">◉</div>
+<h2>基本面对比 · 助读（不消耗赔率额度，独立于模型计算）</h2></div>
+{"".join(fb)}
+<div class="small">本卡为事实/可计算数据（球场、赛日天气、海拔、主场、近况攻防），
+独立于盘口模型、仅供理解双方；模型概率不使用本卡信息（已被市场价格消化）。</div>
+{note_hint}</div>""")
+
     # 亚盘
     rows = "".join(
         f"<tr><td>{r['bookmaker']}</td><td>{r['line']:+.2f}</td>"
@@ -1145,9 +1264,12 @@ def build_index():
                     f'打开报告 →</a>')
         else:
             link = f'<span class="mut">analyze.py {rid} 可生成</span>'
-        status = {"tracking": '<span class="badge b-good">重点</span>',
-                  "passive": '<span class="badge b-mid">自动</span>'}.get(
-            r["status"], f'<span class="badge b-warn">{r["status"]}</span>')
+        if show_score:  # 已完赛行：统一显示"已完赛"，不再显示跟踪类型
+            status = '<span class="badge b-mid">已完赛</span>'
+        else:
+            status = {"tracking": '<span class="badge b-good">重点</span>',
+                      "passive": '<span class="badge b-mid">自动</span>'}.get(
+                r["status"], f'<span class="badge b-warn">{r["status"]}</span>')
         score = ""
         if show_score:
             score = (f"<td><b>{r['home_score']}-{r['away_score']}</b></td>"

@@ -15,6 +15,7 @@ log = logging.getLogger("espn")
 
 SEARCH = "https://site.web.api.espn.com/apis/common/v3/search"
 SCHEDULE = "https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/{team_id}/schedule"
+SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
 
 _team_id_cache = {}
 
@@ -138,6 +139,29 @@ def _parse_espn_date(s):
 
 
 SCHEDULE_LEAGUES = ("all", "fifa.world")  # 世界杯赛果在 fifa.world 专属赛程里
+
+
+def get_match_venue(home_en, away_en, kickoff_utc_iso):
+    """从世界杯赛程板按赛日 + 队名匹配，返回 (球场名, 城市) 或 None。无需 key。"""
+    date = datetime.strptime(kickoff_utc_iso, "%Y-%m-%dT%H:%M:%SZ").replace(
+        tzinfo=timezone.utc)
+    # 跨时区，查赛日当天和前一天
+    for delta in (0, -1, 1):
+        ymd = (date + timedelta(days=delta)).strftime("%Y%m%d")
+        try:
+            data = _get(SCOREBOARD, {"dates": ymd})
+        except EspnError:
+            continue
+        for ev in data.get("events", []):
+            comp = ev["competitions"][0]
+            names = [c["team"]["displayName"] for c in comp["competitors"]]
+            if (any(_similar(home_en, n) >= 0.7 for n in names)
+                    and any(_similar(away_en, n) >= 0.7 for n in names)):
+                v = comp.get("venue", {})
+                addr = v.get("address") or {}
+                if v.get("fullName"):
+                    return v["fullName"], addr.get("city", "")
+    return None
 
 
 def get_match_result(home_en, away_en, kickoff_utc_iso):
