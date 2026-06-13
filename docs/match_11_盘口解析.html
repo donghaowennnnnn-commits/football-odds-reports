@@ -135,7 +135,7 @@ svg text{font-family:inherit}
 <div class="cols3">
 <div><div class="sub">① 市场锚点（主依据，模型全部输入）</div><ul><li>pinnacle: 主胜 26.7% / 平 34.2% / 客胜 39.1%（抽水 3.4%）</li><li>betfair_ex_eu: 主胜 27.4% / 平 33.3% / 客胜 39.3%（抽水 0.2%）</li><li>做市商与交易所的主胜概率差 0.7 个百分点——两锚点高度一致，市场共识可信度高</li></ul></div>
 <div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul><li>观察窗口内共 26 个快照时点：</li><li>Pinnacle 主胜赔率 3.66 → 3.58（-2.2%），走低——资金温和流向主队</li><li>让球线稳定在 +0.25，主队水位 1.86 → 1.84（-1.1%，向主队方向收紧）</li></ul></div>
-<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>本场未抓取球队近况（非手动跟踪的重点场），可用 track.py add 升级后获得</li></ul></div></div>
+<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>Ivory Coast: 近 10 场 7胜1平2负，进 19 失 8（积 22 分）</li><li>Ecuador: 近 10 场 4胜6平0负，进 12 失 5（积 18 分）</li></ul></div></div>
 <div style="border-top:1px dashed rgba(0,212,255,.25);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
@@ -143,7 +143,7 @@ svg text{font-family:inherit}
 <div class="cols2">
 <div><div class="sub">职业资金方向</div><ul><li>让球线稳定 +0.25，主队水位收紧 -1.1%——资金温和流向主队</li><li>Pinnacle 主胜赔率 3.66 → 3.58（-2.2%，走低（向主队））</li><li>Betfair 交易所同向移动——资金流向获独立确认，可信度高</li></ul></div>
 <div><div class="sub">庄家行为检测</div><ul><li>betvictor: 锚点移动 -2.2% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>onexbet: 锚点移动 -2.2% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>skybet: 锚点移动 -2.2% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>unibet: 与市场共识反向调价（+2.8% vs 锚点 -2.2%）——疑似诱导性定价或本地风控，对其报价保持警惕</li><li>williamhill: 锚点移动 -2.2% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li></ul></div></div>
-<div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
+<div class="rec" style="margin-top:14px">交叉验证: 纸面近况与市场方向<b>背离</b>——市场坚持的判断里含有近况之外的信息（伤停、轮换、未公开情报），此时应以市场为准，并留意临场盘口异动。</div><div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
 进价格，重复计入等于二次计权；②③④层用于解读与预警，不进入推荐计算。
 真实投注量不可见，资金流向为价格行为的间接推断，“疑似诱导”仅为模式标记。</div></div></div><div class="footer">本报告为纯数学推导（市场赔率去水 + 泊松模型），
 不构成投注建议。模型以基准公司为锚，EV 为相对锚点的偏差；伤停、阵容等场外信息未纳入模型。
