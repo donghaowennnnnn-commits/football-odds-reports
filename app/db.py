@@ -101,6 +101,25 @@ def _migrate(conn):
             conn.execute(f"ALTER TABLE matches ADD COLUMN {col} TEXT")
     conn.commit()
 
+    # 一次性修正历史让球注单的术语 bug（旧标签如"客受让 -1.00"自相矛盾）
+    bad = conn.execute(
+        "SELECT COUNT(*) c FROM paper_bets WHERE market='ah'"
+        " AND (pick LIKE '%受让 -%' OR pick LIKE '%让 +%' OR pick LIKE '%-0.00')"
+    ).fetchone()
+    if bad and bad["c"]:
+        for b in conn.execute(
+            "SELECT id, side, line FROM paper_bets WHERE market='ah'").fetchall():
+            if b["line"] is None or b["side"] is None:
+                continue
+            team = "主" if b["side"] == "home" else "客"
+            h = b["line"] if b["side"] == "home" else -b["line"]
+            if abs(h) < 1e-9:
+                pick = f"{team}平手"
+            else:
+                pick = f"{team}{'让' if h < 0 else '受让'} {abs(h):.2f}"
+            conn.execute("UPDATE paper_bets SET pick=? WHERE id=?", (pick, b["id"]))
+        conn.commit()
+
 
 # ---------- matches ----------
 
