@@ -136,6 +136,19 @@ def ev_total(tdist, line, odds, side):
     return sum(evs) / len(evs)
 
 
+def ah_label(side, line):
+    """让球盘正确中文说法：让球数为负=让(give)，为正=受让(receive)。
+
+    line 为主队盘口；客队盘口 = -line。
+    例：line=+1.00（主队受让），买客队 → 客队盘口 -1.00 → "客让 1.00"。
+    """
+    team = "主" if side == "home" else "客"
+    h = line if side == "home" else -line   # 该 side 实际承受的盘口
+    if abs(h) < 1e-9:
+        return f"{team}平手"
+    return f"{team}{'让' if h < 0 else '受让'} {abs(h):.2f}"
+
+
 def handicap_probs(ddist, line, side):
     """让球盘的 (赢盘, 走盘, 输盘) 概率，四分之一盘按两个子盘平均。"""
     win = push = lose = 0.0
@@ -725,9 +738,9 @@ def analyze(match_id):
     if ah_rows:
         cands = []
         for r in ah_rows:
-            cands.append(("home", f"主让 {r['line']:+.2f}", r["line"],
+            cands.append(("home", ah_label("home", r["line"]), r["line"],
                           r["ev_home"], r["home_odds"], r["bookmaker"]))
-            cands.append(("away", f"客受让 {(-r['line']) + 0.0:+.2f}", r["line"],
+            cands.append(("away", ah_label("away", r["line"]), r["line"],
                           r["ev_away"], r["away_odds"], r["bookmaker"]))
         side, label, line, ev, best_odds, bk = max(cands, key=lambda x: x[3])
         w, p, l = handicap_probs(ddist, line, side)

@@ -231,13 +231,14 @@ def place_paper_bets(conn, match):
     flow = res.get("flow") or {}
     if flow.get("strong") and flow.get("direction") and res["ah"]:
         side = "home" if flow["direction"] > 0 else "away"
+        from analyze import ah_label
         cands = []
         for r in res["ah"]:
             if side == "home":
-                cands.append((r["ev_home"], f"主让 {r['line']:+.2f}",
+                cands.append((r["ev_home"], ah_label("home", r["line"]),
                               r["line"], r["home_odds"], r["bookmaker"]))
             else:
-                cands.append((r["ev_away"], f"客受让 {(-r['line']) + 0.0:+.2f}",
+                cands.append((r["ev_away"], ah_label("away", r["line"]),
                               r["line"], r["away_odds"], r["bookmaker"]))
         ev_, pick, line, odds_, bk = max(cands)
         db.insert_paper_bet(conn, match["id"], "ah", pick, bk, line, side,
