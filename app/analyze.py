@@ -768,6 +768,26 @@ def analyze(match_id):
         for p, i, j in scores
     ]
 
+    # 对冲/保险参考：仅当推荐的是"让球方"（平局会输）时才计算
+    hedge = None
+    ah_rec = recs.get("ah")
+    if ah_rec:
+        h = ah_rec["line"] if ah_rec["side"] == "home" else -ah_rec["line"]
+        if h < -1e-9:  # 让球方，平局是输的情形
+            draw_odds = max(
+                (r["draw_odds"] for r in odds.get("1x2", {}).values()
+                 if r["draw_odds"]), default=None)
+            mat0 = score_matrix(lh, la, rho)
+            p_draw = sum(mat0[i][i] for i in range(MAX_GOALS + 1))
+            draw_scores = [s for s in score_rows
+                           if s["score"].split("-")[0] == s["score"].split("-")[1]][:2]
+            if draw_odds and draw_odds > 1.05:
+                hedge = {
+                    "draw_odds": draw_odds, "p_draw": p_draw,
+                    "ratio": 1 / (draw_odds - 1),   # 每 100 注让球，配多少平局保本
+                    "draw_scores": draw_scores,
+                }
+
     basis = _build_basis(conn, match, history, anchors, p_home, p_away)
     flow = _money_flow(history)
 
@@ -816,6 +836,7 @@ def analyze(match_id):
         "rho": rho,
         "exp_total": lh + la,
         "ah": ah_rows, "ou": ou_rows, "scores": score_rows, "recs": recs,
+        "hedge": hedge,
         "odds_1x2": odds["1x2"],
     }
 
@@ -1080,11 +1101,38 @@ def build_html(res, out_path):
         f"<td{_ev_cls(r['ev_home'])}>{r['ev_home']:+.1f}%</td>"
         f"<td{_ev_cls(r['ev_away'])}>{r['ev_away']:+.1f}%</td></tr>"
         for r in res["ah"])
+    # 对冲/保险参考块
+    hedge_html = ""
+    hg = res.get("hedge")
+    if hg:
+        per100 = 100 * hg["ratio"]
+        ds = hg["draw_scores"]
+        score_opt = ""
+        if ds:
+            s0 = ds[0]
+            cover100 = 100 / (s0["fair"] - 1) if s0["fair"] > 1 else 0
+            score_opt = (
+                f'<br/>· <b>只保 {s0["score"]}</b>（模型概率 {s0["prob"]:.0f}%）：'
+                f'成本更低但只覆盖这一个比分，按模型公平价 {s0["fair"]:.1f} 约需 '
+                f'{cover100:.0f} 元/百元让球（波胆市价我们不抓，实盘赔率以博彩页为准）。')
+        hedge_html = (
+            f'<div class="rec" style="border-color:rgba(255,180,84,.4)">'
+            f'<b>💡 对冲 / 保险参考</b>'
+            f'<span class="badge b-warn">降波动 · 不增EV</span><br/>'
+            f'<span class="mut">本注是让球方，<b>平局会输</b>（模型平局概率 '
+            f'{hg["p_draw"]:.0%}）。若想给平局封顶损失：<br/>'
+            f'· <b>保全部平局</b>：每押 100 元让球，配约 <b>{per100:.0f} 元</b>'
+            f'买平局(@{hg["draw_odds"]:.2f})，任意平局都不亏；代价是非平局时这 '
+            f'{per100:.0f} 元全损。{score_opt}<br/>'
+            f'⚠ 对冲只重塑波动、<b>不提高 EV</b>——两注都含水，长期总账更亏一点；'
+            f'这是"用确定小损失换掉不确定大损失"的保险，非盈利手段。'
+            f'若你本就认为让球线偏高，更干净的做法是直接买受让方。</span></div>')
+
     P.append(f"""<div class="card"><div class="ct"><div class="ico">◆</div>
 <h2>亚洲让球盘</h2></div>
 <table><tr><th>公司</th><th>盘口</th><th>主赔</th><th>客赔</th><th>公平主</th>
 <th>公平客</th><th>主EV</th><th>客EV</th></tr>{rows}</table>
-{_html_rec('亚盘', res['recs']['ah'], lag) if res['recs'].get('ah') else ''}</div>""")
+{_html_rec('亚盘', res['recs']['ah'], lag) if res['recs'].get('ah') else ''}{hedge_html}</div>""")
 
     # 大小球
     rows = "".join(
