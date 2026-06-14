@@ -135,7 +135,7 @@ svg text{font-family:inherit}
 <div class="cols3">
 <div><div class="sub">① 市场锚点（主依据，模型全部输入）</div><ul><li>pinnacle: 主胜 50.7% / 平 27.2% / 客胜 22.1%（抽水 3.4%）</li><li>betfair_ex_eu: 主胜 50.3% / 平 27.6% / 客胜 22.1%（抽水 0.5%）</li><li>做市商与交易所的主胜概率差 0.4 个百分点——两锚点高度一致，市场共识可信度高</li></ul></div>
 <div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul><li>观察窗口内共 31 个快照时点：</li><li>Pinnacle 主胜赔率 1.93 → 1.93（+0.0%），基本持平——市场判断稳定</li><li>让球线稳定在 -0.50，主队水位 1.93 → 1.93（+0.0%，无方向性变化）</li></ul></div>
-<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>本场未抓取球队近况（非手动跟踪的重点场），可用 track.py add 升级后获得</li></ul></div></div>
+<div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>Sweden: 近 10 场 2胜3平5负，进 13 失 20（积 9 分）</li><li>Tunisia: 近 10 场 3胜4平3负，进 11 失 14（积 13 分）</li></ul></div></div>
 <div style="border-top:1px dashed rgba(0,212,255,.25);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
@@ -143,7 +143,7 @@ svg text{font-family:inherit}
 <div class="cols2">
 <div><div class="sub">职业资金方向</div><ul><li>亚盘线与水位均稳定——无方向性资金动作</li></ul></div>
 <div><div class="sub">庄家行为检测</div><ul><li>各软庄与锚点基本同步，未检测到滞后或逆共识行为</li></ul></div></div>
-<div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
+<div class="rec" style="margin-top:14px">交叉验证: 纸面近况与市场方向<b>背离</b>——市场坚持的判断里含有近况之外的信息（伤停、轮换、未公开情报），此时应以市场为准，并留意临场盘口异动。</div><div class="small">模型概率 100% 来自第①层市场价格——公开信息已被职业资金消化
 进价格，重复计入等于二次计权；②③④层用于解读与预警，不进入推荐计算。
 真实投注量不可见，资金流向为价格行为的间接推断，“疑似诱导”仅为模式标记。</div></div></div><div class="footer">本报告为纯数学推导（市场赔率去水 + 泊松模型），
 不构成投注建议。模型以基准公司为锚，EV 为相对锚点的偏差；伤停、阵容等场外信息未纳入模型。
