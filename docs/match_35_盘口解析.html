@@ -108,7 +108,7 @@ svg text{font-family:inherit}
 <h2>亚洲让球盘</h2></div>
 <table><tr><th>公司</th><th>盘口</th><th>主赔</th><th>客赔</th><th>公平主</th>
 <th>公平客</th><th>主EV</th><th>客EV</th></tr><tr><td>onexbet</td><td>-2.50</td><td>2.12</td><td>1.77</td><td>2.46</td><td>1.69</td><td>-13.7%</td><td class="pos">+5.0%</td></tr><tr><td>pinnacle</td><td>-2.25</td><td>1.95</td><td>1.95</td><td>2.17</td><td>1.86</td><td>-8.9%</td><td class="pos">+4.5%</td></tr></table>
-<div class="rec"><b>亚盘推荐</b>: <span class="pick">「客受让 2.50」</span> @ 1.77（onexbet，全场最优价）<span class="badge b-good">推荐 · 正期望</span><br/><span class="mut">模型概率: 赢 59.3% / 走 0.0% / 输 40.7% ｜ EV +5.0%</span><br/><span style="color:#ffb454">⚠ 与职业资金方向背离（资金偏向主队，强信号·让球线移动）——本推荐取“价格最优”，方向派的成绩见顺资金策略复盘</span></div></div><div class="card"><div class="ct"><div class="ico">●</div>
+<div class="rec"><b>亚盘推荐</b>: <span class="pick">「客受让 2.50」</span> @ 1.77（onexbet，全场最优价）<span class="badge b-good">推荐 · 正期望</span><br/><span class="mut">模型概率: 赢 59.3% / 走 0.0% / 输 40.7% ｜ EV +5.0%</span><br/><span style="color:#ffb454">价格行为与本推荐反向（参考意义低，回测中资金方向与赛果不相关）</span></div></div><div class="card"><div class="ct"><div class="ico">●</div>
 <h2>大小球盘</h2></div>
 <table><tr><th>公司</th><th>盘口</th><th>大球</th><th>小球</th><th>公平大</th>
 <th>公平小</th><th>大EV</th><th>小EV</th></tr><tr><td>betsson</td><td>2.50</td><td>1.55</td><td>2.50</td><td>1.74</td><td>2.35</td><td>-10.9%</td><td class="pos">+6.3%</td></tr><tr><td>onexbet</td><td>3.50</td><td>2.40</td><td>1.61</td><td>2.85</td><td>1.54</td><td>-15.8%</td><td class="pos">+4.5%</td></tr><tr><td>pinnacle</td><td>3.00</td><td>1.93</td><td>1.96</td><td>2.21</td><td>1.82</td><td>-9.9%</td><td class="pos">+5.8%</td></tr><tr><td>unibet</td><td>3.50</td><td>2.38</td><td>1.55</td><td>2.85</td><td>1.54</td><td>-16.5%</td><td class="pos">+0.6%</td></tr><tr><td>williamhill</td><td>2.50</td><td>1.50</td><td>2.45</td><td>1.74</td><td>2.35</td><td>-13.8%</td><td class="pos">+4.2%</td></tr></table>
@@ -121,9 +121,10 @@ svg text{font-family:inherit}
 （需 &gt; 7.3）<br/><span class="mut">已做 Dixon-Coles 低比分修正
 （ρ=0.100）；波胆方差极大，仓位应远小于亚盘/大小球</span></div></div><div class="card"><div class="ct"><div class="ico">※</div>
 <h2>模拟下注 · 复盘数据，非真实投注</h2></div><div class="rec mut">尚未落单——系统将在开赛前 3 小时的首轮抓取时，按届时全场最优价自动记录三笔模拟注单（亚盘/大小球/波胆各一），赛果回填后自动结算。</div>
-<div class="small">策略说明: <b>EV最优</b> = 全场损耗最小入口（纯数学）；
-<b>顺资金</b> = 检测到让球线移动的强信号时按职业资金方向加注（平行实验组）——
-两条策略分账复盘，用数据裁决“该不该跟资金方向”。
+<div class="small">策略说明: <b>EV最优</b> = 全场损耗最小入口（纯数学）。
+<b>顺资金</b>（按职业资金方向加注的平行实验组）已于 2026-06 下线：24 场分账复盘
+中 0/3 命中、ROI −100%，且回看分析显示资金方向与赛果统计上不相关，故停用；
+历史注单仍如实保留展示。
 注额规则: 亚盘/大小球每注 1，<b>波胆每注 0.1</b>——高赔率玩法
 按现实投注习惯采用小仓位，与前文“波胆仓位应远小于亚盘/大小球”的提示一致。
 波胆按模型公平赔率记账（市价不可采集），其复盘指标为命中率校准；
@@ -139,7 +140,7 @@ svg text{font-family:inherit}
 <div style="border-top:1px dashed rgba(0,212,255,.25);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
-<div class="verdict">综合判定: 职业资金明确流向主队（含让球线移动的强信号）</div>
+<div class="verdict">综合判定: 价格偏向主队（含让球线移动）——低置信度，回测显示该信号≈噪声，仅供参考</div>
 <div class="cols2">
 <div><div class="sub">职业资金方向</div><ul><li>Pinnacle 让球线 -1.75 → -2.25（升盘）——职业资金重仓主队的强信号</li><li>Pinnacle 主胜赔率 1.19 → 1.15（-3.4%，走低（向主队））</li><li>Betfair 交易所同向移动——资金流向获独立确认，可信度高</li></ul></div>
 <div><div class="sub">庄家行为检测</div><ul><li>betsson: 锚点移动 -3.4% 期间按兵不动——滞后跟盘，其旧价值得对照 EV 表检查</li><li>betvictor: 与市场共识反向调价（+1.9% vs 锚点 -3.4%）——疑似诱导性定价或本地风控，对其报价保持警惕</li></ul></div></div>
