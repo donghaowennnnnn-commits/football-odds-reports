@@ -868,115 +868,128 @@ def fmt_local(utc_iso):
 # Hero 背景：内嵌 SVG（夜场球场 · 蓝色单色调），base64 data URI 自带不依赖外链。
 # Tesla 的设计本就靠大图撑场面——白色 UI 浮于影像之上。
 HERO_SVG = (
+    # FWC-18 / AQ 风格：深紫黑夜空 + 顶部正中暗红光晕 + 低多边形山脉剪影
     "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 440' "
     "preserveAspectRatio='xMidYMid slice'>"
     "<defs>"
     "<linearGradient id='sky' x1='0' y1='0' x2='0' y2='1'>"
-    "<stop offset='0' stop-color='#0a1430'/><stop offset='.5' stop-color='#13264f'/>"
-    "<stop offset='1' stop-color='#1d3c75'/></linearGradient>"
-    "<radialGradient id='fl' cx='.5' cy='.5' r='.5'>"
-    "<stop offset='0' stop-color='#bcd2ff' stop-opacity='.5'/>"
-    "<stop offset='1' stop-color='#bcd2ff' stop-opacity='0'/></radialGradient>"
+    "<stop offset='0' stop-color='#160e28'/><stop offset='.6' stop-color='#0e0a1b'/>"
+    "<stop offset='1' stop-color='#0b0913'/></linearGradient>"
+    "<radialGradient id='glow' cx='.5' cy='.02' r='.6'>"
+    "<stop offset='0' stop-color='#ff2e4d' stop-opacity='.55'/>"
+    "<stop offset='.42' stop-color='#c0273f' stop-opacity='.2'/>"
+    "<stop offset='1' stop-color='#ff2e4d' stop-opacity='0'/></radialGradient>"
+    "<linearGradient id='m1' x1='0' y1='0' x2='0' y2='1'>"
+    "<stop offset='0' stop-color='#3a2550'/><stop offset='1' stop-color='#241634'/></linearGradient>"
+    "<linearGradient id='m2' x1='0' y1='0' x2='0' y2='1'>"
+    "<stop offset='0' stop-color='#241634'/><stop offset='1' stop-color='#120c20'/></linearGradient>"
     "<linearGradient id='lg' x1='0' y1='0' x2='0' y2='1'>"
-    "<stop offset='.4' stop-color='#060c1c' stop-opacity='0'/>"
-    "<stop offset='1' stop-color='#060c1c' stop-opacity='.8'/></linearGradient>"
+    "<stop offset='.42' stop-color='#0b0913' stop-opacity='0'/>"
+    "<stop offset='1' stop-color='#0b0913' stop-opacity='.85'/></linearGradient>"
     "</defs>"
     "<rect width='1440' height='440' fill='url(#sky)'/>"
+    "<ellipse cx='720' cy='-12' rx='760' ry='320' fill='url(#glow)'/>"
     "<g fill='#fff' fill-opacity='.5'>"
-    "<circle cx='430' cy='60' r='1.3'/><circle cx='620' cy='38' r='1'/>"
-    "<circle cx='820' cy='66' r='1.2'/><circle cx='1010' cy='44' r='1'/>"
-    "<circle cx='540' cy='96' r='1'/><circle cx='930' cy='104' r='1.1'/></g>"
-    "<ellipse cx='250' cy='24' rx='360' ry='220' fill='url(#fl)'/>"
-    "<ellipse cx='1210' cy='8' rx='380' ry='240' fill='url(#fl)'/>"
-    "<g stroke='#9fb6e6' stroke-opacity='.35' stroke-width='2'>"
-    "<line x1='185' y1='70' x2='185' y2='280'/><line x1='1268' y1='56' x2='1268' y2='270'/></g>"
-    "<g fill='#dbe6ff' fill-opacity='.9'>"
-    "<rect x='152' y='52' width='66' height='22' rx='3'/>"
-    "<rect x='1236' y='38' width='66' height='22' rx='3'/></g>"
-    "<path d='M0 312 Q720 250 1440 312 L1440 440 L0 440 Z' fill='#0b1834'/>"
-    "<path d='M0 312 Q720 250 1440 312' fill='none' stroke='#3E6AE1' "
-    "stroke-opacity='.55' stroke-width='2'/>"
-    "<g stroke='#fff' stroke-opacity='.1' fill='none' stroke-width='2'>"
-    "<ellipse cx='720' cy='432' rx='180' ry='30'/><line x1='220' y1='432' x2='1220' y2='432'/></g>"
+    "<circle cx='180' cy='60' r='1'/><circle cx='400' cy='42' r='1.2'/>"
+    "<circle cx='980' cy='52' r='1'/><circle cx='1240' cy='44' r='1.2'/>"
+    "<circle cx='1120' cy='96' r='1'/><circle cx='300' cy='110' r='1'/></g>"
+    "<circle cx='250' cy='70' r='5' fill='#ff2e4d'/>"
+    "<polygon points='0,300 160,210 320,278 470,188 640,288 800,205 980,284 1140,198 "
+    "1300,268 1440,222 1440,440 0,440' fill='url(#m1)' opacity='.92'/>"
+    "<g fill='#52345f' opacity='.5'>"
+    "<polygon points='470,188 560,236 380,236'/><polygon points='1140,198 1230,234 1050,234'/>"
+    "<polygon points='160,210 250,256 70,256'/></g>"
+    "<polygon points='0,360 220,274 430,344 640,268 880,350 1080,274 1280,344 1440,300 "
+    "1440,440 0,440' fill='url(#m2)'/>"
+    "<polyline points='0,360 220,274 430,344 640,268 880,350 1080,274 1280,344 1440,300' "
+    "fill='none' stroke='#ff2e4d' stroke-opacity='.28' stroke-width='1.5'/>"
     "<rect width='1440' height='440' fill='url(#lg)'/></svg>"
 )
 HERO_BG = "data:image/svg+xml;base64," + base64.b64encode(
     HERO_SVG.encode("utf-8")).decode("ascii")
 
 SITE_CSS = """
-/* Tesla 风格：纯白画布 · 零装饰（无阴影/渐变）· 唯一强调色电蓝 · 大留白 */
-:root{--canvas:#fff;--ash:#f4f4f4;--ink:#171a20;--body:#393c41;--mut:#5c5e62;
---faint:#8e8e8e;--line:#eee;--line2:#d0d1d2;--blue:#3e6ae1;--blue-d:#3457b8;
---pos:#171a20;--neg:#c0392b}
+/* FWC-18 / AQ 风格：暗黑夜空 + 暗红霓虹辉光 + 低多边形山脉 + 细长全大写科技字体 */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+:root{--bg0:#0b0913;--ink:#f4eef6;--body:#c5bfd4;--mut:#867f9a;--faint:#5c5772;
+--accent:#ff2e4d;--accent2:#ff5e78;--glow:rgba(255,46,77,.5);
+--line:rgba(255,255,255,.09);--line2:rgba(255,46,77,.4);
+--card:rgba(255,255,255,.035);--ash:rgba(255,255,255,.05);--pos:#33d39b;--neg:#ff4060;
+--font:"Rajdhani","Chakra Petch",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--canvas);color:var(--body);font-weight:400;line-height:1.5;
-font-family:"Universal Sans Text",-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
--webkit-font-smoothing:antialiased;padding:48px 40px 64px;min-width:1040px}
-.hero{position:relative;border-radius:12px;overflow:hidden;margin-bottom:32px;
-min-height:300px;padding:48px 40px 30px;display:flex;flex-direction:column;
-justify-content:flex-end;background:#0a1430 url(__HERO_BG__) center/cover no-repeat}
-.tag{font-size:13px;font-weight:500;color:var(--blue);margin-bottom:14px}
-h1{font-size:38px;font-weight:500;color:var(--ink);line-height:1.2}
-h1 .vs{color:var(--mut);font-size:22px;font-weight:400;margin:0 14px}
-.chips{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
-.chip{font-size:13px;color:var(--mut);border:1px solid var(--line);border-radius:4px;
-padding:6px 12px;background:var(--canvas)}
-.chip b{color:var(--ink);font-weight:500}
-/* hero 内文字在深色影像上转白，chip 用 Tesla 磨砂玻璃 */
-.hero .tag{color:rgba(255,255,255,.82)}
-.hero h1{color:#fff}
-.hero h1 .vs{color:rgba(255,255,255,.55)}
-.hero .chip{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);
-color:rgba(255,255,255,.86)}
+body{background:
+radial-gradient(58% 42% at 50% -4%,rgba(255,46,77,.32),transparent 62%),
+radial-gradient(80% 52% at 50% 0%,rgba(120,28,78,.22),transparent 72%),
+linear-gradient(180deg,#171029,#0b0913 70%) fixed,#0b0913;
+color:var(--body);font-family:var(--font);font-weight:400;line-height:1.55;
+-webkit-font-smoothing:antialiased;padding:40px 40px 64px;min-width:1040px}
+.hero{position:relative;border-radius:14px;overflow:hidden;margin-bottom:34px;
+min-height:330px;padding:46px 42px 34px;display:flex;flex-direction:column;
+justify-content:flex-end;background:#0b0913 url(__HERO_BG__) center/cover no-repeat}
+.tag{font-size:12px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;
+color:var(--accent2);margin-bottom:16px}
+h1{font-size:46px;font-weight:600;color:var(--ink);line-height:1.08;letter-spacing:.05em;
+text-transform:uppercase}
+h1 .vs{color:var(--accent);font-weight:300;margin:0 12px}
+.chips{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:12px;letter-spacing:.05em;color:var(--body);border:1px solid var(--line);
+border-radius:4px;padding:6px 12px;background:rgba(255,255,255,.04)}
+.chip b{color:var(--ink);font-weight:600}
+/* hero 内文字加猩红辉光，chip 用磨砂玻璃 */
+.hero .tag{color:var(--accent2)}
+.hero h1{color:#fff;text-shadow:0 0 26px var(--glow)}
+.hero h1 .vs{color:var(--accent)}
+.hero .chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#efeaf2}
 .hero .chip b{color:#fff}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:32px}
-.card{grid-column:span 6;border:1px solid var(--line);border-radius:8px;
-background:var(--canvas);padding:24px 26px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:30px}
+.card{grid-column:span 6;border:1px solid var(--line);border-radius:12px;
+background:var(--card);padding:22px 24px;overflow-x:auto}
 .card.w12{grid-column:span 12}
-.ct{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.ct .ico{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;
-justify-content:center;background:var(--ash);color:var(--ink);font-weight:500;font-size:14px}
-.ct h2{font-size:16px;font-weight:500;color:var(--ink)}
+.ct{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.ct .ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+justify-content:center;background:rgba(255,46,77,.14);color:var(--accent2);
+border:1px solid var(--line2);font-weight:600;font-size:13px}
+.ct h2{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:.04em}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:var(--mut);background:var(--ash);padding:10px;text-align:center;font-weight:500;
-border-bottom:1px solid var(--line)}
-th:first-child{border-radius:4px 0 0 0}th:last-child{border-radius:0 4px 0 0}
+th{color:var(--mut);background:rgba(255,255,255,.04);padding:10px;text-align:center;
+font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+th:first-child{border-radius:6px 0 0 0}th:last-child{border-radius:0 6px 0 0}
 td{padding:10px;text-align:center;border-bottom:1px solid var(--line);color:var(--body)}
 td:first-child{text-align:left;color:var(--mut)}
-tr:hover td{background:var(--ash)}
-.pos{color:var(--pos);font-weight:500}.neg{color:var(--neg);font-weight:500}
-.rec{margin-top:16px;border:1px solid var(--line);border-radius:8px;
-padding:16px 18px;font-size:13px;background:var(--ash);line-height:1.7;color:var(--body)}
-.rec .pick{color:var(--blue);font-weight:500}
-.badge{display:inline-block;border-radius:4px;padding:3px 10px;font-size:12px;
-font-weight:500;margin-left:8px;border:1px solid var(--line2);background:var(--canvas)}
-.b-good{color:var(--blue);border-color:var(--blue)}
-.b-mid{color:var(--mut);border-color:var(--line2)}
-.b-warn{color:var(--neg);border-color:var(--neg)}
+tr:hover td{background:rgba(255,46,77,.06)}
+.pos{color:var(--pos);font-weight:600}.neg{color:var(--neg);font-weight:600}
+.rec{margin-top:16px;border:1px solid var(--line2);border-radius:10px;
+padding:15px 18px;font-size:13px;background:rgba(255,46,77,.06);line-height:1.7;color:var(--body)}
+.rec .pick{color:var(--accent2);font-weight:600;text-shadow:0 0 14px var(--glow)}
+.badge{display:inline-block;border-radius:4px;padding:3px 10px;font-size:11px;
+font-weight:600;letter-spacing:.05em;margin-left:8px;border:1px solid var(--line);background:transparent}
+.b-good{color:var(--pos);border-color:rgba(51,211,155,.5)}
+.b-mid{color:var(--mut);border-color:var(--line)}
+.b-warn{color:var(--accent2);border-color:var(--line2)}
 ul{list-style:none}
 li{font-size:13px;padding:5px 0 5px 16px;position:relative;line-height:1.6;color:var(--body)}
 li:before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;
-border-radius:50%;background:var(--faint)}
+border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent)}
 .mut{color:var(--mut)}
 .small{font-size:12px;color:var(--mut);line-height:1.65;margin-top:12px}
 .kpis{display:flex;gap:16px;margin:16px 0 4px}
-.kpi{flex:1;border:1px solid var(--line);border-radius:8px;padding:16px;
-text-align:center;background:var(--canvas)}
-.kpi .v{font-size:24px;font-weight:500;color:var(--ink)}
-.kpi .l{font-size:12px;color:var(--mut);margin-top:5px}
-.verdict{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:10px}
-.sub{font-size:13px;font-weight:500;color:var(--ink);margin:16px 0 6px}
+.kpi{flex:1;border:1px solid var(--line);border-radius:10px;padding:16px;
+text-align:center;background:rgba(255,255,255,.025)}
+.kpi .v{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.kpi .l{font-size:11px;color:var(--mut);margin-top:6px;letter-spacing:.05em}
+.verdict{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.sub{font-size:13px;font-weight:500;color:var(--accent2);margin:16px 0 6px;letter-spacing:.04em}
 .legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:8px}
 .legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;
 vertical-align:middle}
 .footer{margin-top:32px;font-size:12px;color:var(--mut);line-height:1.7;
 border-top:1px solid var(--line);padding-top:16px}
 svg text{font-family:inherit}
-.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 @media (max-width:900px){
   body{min-width:0;padding:24px 16px}
-  h1{font-size:26px}
+  h1{font-size:30px}
   .grid{grid-template-columns:1fr}
   .card,.card.w12{grid-column:span 1}
   .cols3,.cols2{grid-template-columns:1fr}
@@ -986,7 +999,7 @@ svg text{font-family:inherit}
 
 SITE_CSS = SITE_CSS.replace("__HERO_BG__", HERO_BG)
 
-CHART_COLORS = ["#3e6ae1", "#171a20", "#8e8e8e"]
+CHART_COLORS = ["#ff2e4d", "#f4eef6", "#9b7fd0"]
 
 
 def _svg_chart(series_list, width=640, height=200):
@@ -1014,20 +1027,20 @@ def _svg_chart(series_list, width=640, height=200):
     for i in range(4):  # 横向网格
         yy = y0 + (y1 - y0) * i / 3
         s.append(f'<line x1="{L}" y1="{Y(yy):.1f}" x2="{width - R}" y2="{Y(yy):.1f}"'
-                 f' stroke="#eeeeee" stroke-width="1"/>')
+                 f' stroke="rgba(255,255,255,.09)" stroke-width="1"/>')
         s.append(f'<text x="{L - 6}" y="{Y(yy) + 4:.1f}" font-size="10"'
-                 f' fill="#8e8e8e" text-anchor="end">{yy:.2f}</text>')
+                 f' fill="#867f9a" text-anchor="end">{yy:.2f}</text>')
     for label, color, pts in series_list:
         coords = " ".join(f"{X(ep(t)):.1f},{Y(v):.1f}" for t, v in pts)
         s.append(f'<polyline points="{coords}" fill="none" stroke="{color}"'
-                 f' stroke-width="2.2" stroke-linejoin="round"'
+                 f' stroke-width="2.2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px {color})"'
                  f'/>')
         lt, lv = pts[-1]
         s.append(f'<circle cx="{X(ep(lt)):.1f}" cy="{Y(lv):.1f}" r="3.5"'
-                 f' fill="{color}"/>')
-    s.append(f'<text x="{L}" y="{height - 6}" font-size="10" fill="#8e8e8e">'
+                 f' fill="{color}" style="filter:drop-shadow(0 0 6px {color})"/>')
+    s.append(f'<text x="{L}" y="{height - 6}" font-size="10" fill="#867f9a">'
              f'{fmt_local(series_list[0][2][0][0])}</text>')
-    s.append(f'<text x="{width - R}" y="{height - 6}" font-size="10" fill="#8e8e8e"'
+    s.append(f'<text x="{width - R}" y="{height - 6}" font-size="10" fill="#867f9a"'
              f' text-anchor="end">{fmt_local(series_list[0][2][-1][0])}</text>')
     s.append("</svg>")
     return "".join(s)
@@ -1051,7 +1064,7 @@ def _html_rec(name, rec, lag_books):
                 '——真实捡漏窗口，可能随时关闭</span>')
     flow_html = ""
     if rec.get("flow_note"):
-        fc = "#3e6ae1" if rec.get("flow_align") else "#c0392b"
+        fc = "#9b8fb5" if rec.get("flow_align") else "#ff5e78"
         flow_html = f'<br/><span style="color:{fc}">{rec["flow_note"]}</span>'
     if rec["win"] < rec["lose"]:
         flow_html += ('<br/><span class="mut">▲ 注意: 该方向是模型分布中的'
@@ -1174,7 +1187,7 @@ def build_html(res, out_path):
                 f'成本更低但只覆盖这一个比分，按模型公平价 {s0["fair"]:.1f} 约需 '
                 f'{cover100:.0f} 元/百元让球（波胆市价我们不抓，实盘赔率以博彩页为准）。')
         hedge_html = (
-            f'<div class="rec" style="border-color:#d0d1d2">'
+            f'<div class="rec" style="border-color:rgba(255,46,77,.45)">'
             f'<b>💡 对冲 / 保险参考</b>'
             f'<span class="badge b-warn">降波动 · 不增EV</span><br/>'
             f'<span class="mut">本注是让球方，<b>平局会输</b>（模型平局概率 '
@@ -1222,7 +1235,7 @@ def build_html(res, out_path):
                 cs_dir = "小球" if cs_side == "under" else "大球"
                 ou_dir = "大球" if ou_rec["side"] == "over" else "小球"
                 cross = (
-                    f'<br/><span style="color:#c0392b">⚠ 与大小球推荐方向相反：'
+                    f'<br/><span style="color:#ff5e78">⚠ 与大小球推荐方向相反：'
                     f'波胆首选 {top[0]["score"]}（属{cs_dir}）vs 大小球推荐{ou_dir}'
                     f'——二者优化目标不同（波胆＝最可能比分，大小球＝最划算价格），'
                     f'<b>勿同时下注，必输一边</b>。看价值跟大小球，博彩票买波胆，二选一。</span>')
@@ -1296,7 +1309,7 @@ def build_html(res, out_path):
 <div><div class="sub">① 市场锚点（主依据，模型全部输入）</div><ul>{a}</ul></div>
 <div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul>{t}</ul></div>
 <div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul>{f_}</ul></div></div>
-<div style="border-top:1px solid #eeeeee;margin:16px 0 12px"></div>
+<div style="border-top:1px solid rgba(255,255,255,.09);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
 <div class="verdict">综合判定: {flow['verdict']}</div>
@@ -1384,7 +1397,7 @@ def build_index():
         if not report.exists():
             report = PROJECT_DIR.parent / "docs" / fname
         if report.exists():
-            link = (f'<a href="match_{rid}_盘口解析.html" style="color:#3e6ae1">'
+            link = (f'<a href="match_{rid}_盘口解析.html" style="color:#ff5e78">'
                     f'打开报告 →</a>')
         else:
             link = f'<span class="mut">analyze.py {rid} 可生成</span>'
@@ -1399,7 +1412,7 @@ def build_index():
             score = (f"<td><b>{r['home_score']}-{r['away_score']}</b></td>"
                      if r["home_score"] is not None else "<td>—</td>")
         return (f"<tr><td>{fmt_local(r['kickoff_utc'])}</td>"
-                f"<td style='text-align:left;color:#171a20'>"
+                f"<td style='text-align:left;color:#ece8f2'>"
                 f"{to_chinese(r['home_team'])} vs {to_chinese(r['away_team'])}</td>"
                 f"<td>{status}</td>{score}<td>{r['n_snaps']}</td><td>{link}</td></tr>")
 
@@ -1414,7 +1427,7 @@ def build_index():
         try:
             q = json.loads(qf.read_text(encoding="utf-8"))
             rem = q.get("remaining", 0)
-            qc = "#171a20" if rem > 150 else ("#5c5e62" if rem > 60 else "#c0392b")
+            qc = "#33d39b" if rem > 150 else ("#867f9a" if rem > 60 else "#ff4060")
             quota_html = (
                 f'<div class="kpi"><div class="v" style="color:{qc};'
                 f'text-shadow:0 0 12px {qc}66">{rem}</div>'
@@ -1430,7 +1443,7 @@ def build_index():
             inner = ('<div class="v mut">—</div>'
                      '<div class="l">尚无已结算推荐</div>')
         else:
-            rc = "#171a20" if s["rate"] >= 50 else "#c0392b"
+            rc = "#33d39b" if s["rate"] >= 50 else "#ff4060"
             roi_cls = "pos" if (s["roi"] or 0) >= 0 else "neg"
             inner = (
                 f'<div class="v" style="color:{rc};text-shadow:0 0 12px {rc}66">'

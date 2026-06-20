@@ -2,79 +2,87 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>新西兰 vs 埃及 · 盘口解析</title>
 <style>
-/* Tesla 风格：纯白画布 · 零装饰（无阴影/渐变）· 唯一强调色电蓝 · 大留白 */
-:root{--canvas:#fff;--ash:#f4f4f4;--ink:#171a20;--body:#393c41;--mut:#5c5e62;
---faint:#8e8e8e;--line:#eee;--line2:#d0d1d2;--blue:#3e6ae1;--blue-d:#3457b8;
---pos:#171a20;--neg:#c0392b}
+/* FWC-18 / AQ 风格：暗黑夜空 + 暗红霓虹辉光 + 低多边形山脉 + 细长全大写科技字体 */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+:root{--bg0:#0b0913;--ink:#f4eef6;--body:#c5bfd4;--mut:#867f9a;--faint:#5c5772;
+--accent:#ff2e4d;--accent2:#ff5e78;--glow:rgba(255,46,77,.5);
+--line:rgba(255,255,255,.09);--line2:rgba(255,46,77,.4);
+--card:rgba(255,255,255,.035);--ash:rgba(255,255,255,.05);--pos:#33d39b;--neg:#ff4060;
+--font:"Rajdhani","Chakra Petch",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--canvas);color:var(--body);font-weight:400;line-height:1.5;
-font-family:"Universal Sans Text",-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
--webkit-font-smoothing:antialiased;padding:48px 40px 64px;min-width:1040px}
-.hero{position:relative;border-radius:12px;overflow:hidden;margin-bottom:32px;
-min-height:300px;padding:48px 40px 30px;display:flex;flex-direction:column;
-justify-content:flex-end;background:#0a1430 url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxNDQwIDQ0MCcgcHJlc2VydmVBc3BlY3RSYXRpbz0neE1pZFlNaWQgc2xpY2UnPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0nc2t5JyB4MT0nMCcgeTE9JzAnIHgyPScwJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMGExNDMwJy8+PHN0b3Agb2Zmc2V0PScuNScgc3RvcC1jb2xvcj0nIzEzMjY0ZicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzFkM2M3NScvPjwvbGluZWFyR3JhZGllbnQ+PHJhZGlhbEdyYWRpZW50IGlkPSdmbCcgY3g9Jy41JyBjeT0nLjUnIHI9Jy41Jz48c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyNiY2QyZmYnIHN0b3Atb3BhY2l0eT0nLjUnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyNiY2QyZmYnIHN0b3Atb3BhY2l0eT0nMCcvPjwvcmFkaWFsR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdsZycgeDE9JzAnIHkxPScwJyB4Mj0nMCcgeTI9JzEnPjxzdG9wIG9mZnNldD0nLjQnIHN0b3AtY29sb3I9JyMwNjBjMWMnIHN0b3Atb3BhY2l0eT0nMCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzA2MGMxYycgc3RvcC1vcGFjaXR5PScuOCcvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPScxNDQwJyBoZWlnaHQ9JzQ0MCcgZmlsbD0ndXJsKCNza3kpJy8+PGcgZmlsbD0nI2ZmZicgZmlsbC1vcGFjaXR5PScuNSc+PGNpcmNsZSBjeD0nNDMwJyBjeT0nNjAnIHI9JzEuMycvPjxjaXJjbGUgY3g9JzYyMCcgY3k9JzM4JyByPScxJy8+PGNpcmNsZSBjeD0nODIwJyBjeT0nNjYnIHI9JzEuMicvPjxjaXJjbGUgY3g9JzEwMTAnIGN5PSc0NCcgcj0nMScvPjxjaXJjbGUgY3g9JzU0MCcgY3k9Jzk2JyByPScxJy8+PGNpcmNsZSBjeD0nOTMwJyBjeT0nMTA0JyByPScxLjEnLz48L2c+PGVsbGlwc2UgY3g9JzI1MCcgY3k9JzI0JyByeD0nMzYwJyByeT0nMjIwJyBmaWxsPSd1cmwoI2ZsKScvPjxlbGxpcHNlIGN4PScxMjEwJyBjeT0nOCcgcng9JzM4MCcgcnk9JzI0MCcgZmlsbD0ndXJsKCNmbCknLz48ZyBzdHJva2U9JyM5ZmI2ZTYnIHN0cm9rZS1vcGFjaXR5PScuMzUnIHN0cm9rZS13aWR0aD0nMic+PGxpbmUgeDE9JzE4NScgeTE9JzcwJyB4Mj0nMTg1JyB5Mj0nMjgwJy8+PGxpbmUgeDE9JzEyNjgnIHkxPSc1NicgeDI9JzEyNjgnIHkyPScyNzAnLz48L2c+PGcgZmlsbD0nI2RiZTZmZicgZmlsbC1vcGFjaXR5PScuOSc+PHJlY3QgeD0nMTUyJyB5PSc1Micgd2lkdGg9JzY2JyBoZWlnaHQ9JzIyJyByeD0nMycvPjxyZWN0IHg9JzEyMzYnIHk9JzM4JyB3aWR0aD0nNjYnIGhlaWdodD0nMjInIHJ4PSczJy8+PC9nPjxwYXRoIGQ9J00wIDMxMiBRNzIwIDI1MCAxNDQwIDMxMiBMMTQ0MCA0NDAgTDAgNDQwIFonIGZpbGw9JyMwYjE4MzQnLz48cGF0aCBkPSdNMCAzMTIgUTcyMCAyNTAgMTQ0MCAzMTInIGZpbGw9J25vbmUnIHN0cm9rZT0nIzNFNkFFMScgc3Ryb2tlLW9wYWNpdHk9Jy41NScgc3Ryb2tlLXdpZHRoPScyJy8+PGcgc3Ryb2tlPScjZmZmJyBzdHJva2Utb3BhY2l0eT0nLjEnIGZpbGw9J25vbmUnIHN0cm9rZS13aWR0aD0nMic+PGVsbGlwc2UgY3g9JzcyMCcgY3k9JzQzMicgcng9JzE4MCcgcnk9JzMwJy8+PGxpbmUgeDE9JzIyMCcgeTE9JzQzMicgeDI9JzEyMjAnIHkyPSc0MzInLz48L2c+PHJlY3Qgd2lkdGg9JzE0NDAnIGhlaWdodD0nNDQwJyBmaWxsPSd1cmwoI2xnKScvPjwvc3ZnPg==) center/cover no-repeat}
-.tag{font-size:13px;font-weight:500;color:var(--blue);margin-bottom:14px}
-h1{font-size:38px;font-weight:500;color:var(--ink);line-height:1.2}
-h1 .vs{color:var(--mut);font-size:22px;font-weight:400;margin:0 14px}
-.chips{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
-.chip{font-size:13px;color:var(--mut);border:1px solid var(--line);border-radius:4px;
-padding:6px 12px;background:var(--canvas)}
-.chip b{color:var(--ink);font-weight:500}
-/* hero 内文字在深色影像上转白，chip 用 Tesla 磨砂玻璃 */
-.hero .tag{color:rgba(255,255,255,.82)}
-.hero h1{color:#fff}
-.hero h1 .vs{color:rgba(255,255,255,.55)}
-.hero .chip{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);
-color:rgba(255,255,255,.86)}
+body{background:
+radial-gradient(58% 42% at 50% -4%,rgba(255,46,77,.32),transparent 62%),
+radial-gradient(80% 52% at 50% 0%,rgba(120,28,78,.22),transparent 72%),
+linear-gradient(180deg,#171029,#0b0913 70%) fixed,#0b0913;
+color:var(--body);font-family:var(--font);font-weight:400;line-height:1.55;
+-webkit-font-smoothing:antialiased;padding:40px 40px 64px;min-width:1040px}
+.hero{position:relative;border-radius:14px;overflow:hidden;margin-bottom:34px;
+min-height:330px;padding:46px 42px 34px;display:flex;flex-direction:column;
+justify-content:flex-end;background:#0b0913 url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxNDQwIDQ0MCcgcHJlc2VydmVBc3BlY3RSYXRpbz0neE1pZFlNaWQgc2xpY2UnPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0nc2t5JyB4MT0nMCcgeTE9JzAnIHgyPScwJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTYwZTI4Jy8+PHN0b3Agb2Zmc2V0PScuNicgc3RvcC1jb2xvcj0nIzBlMGExYicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzBiMDkxMycvPjwvbGluZWFyR3JhZGllbnQ+PHJhZGlhbEdyYWRpZW50IGlkPSdnbG93JyBjeD0nLjUnIGN5PScuMDInIHI9Jy42Jz48c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyNmZjJlNGQnIHN0b3Atb3BhY2l0eT0nLjU1Jy8+PHN0b3Agb2Zmc2V0PScuNDInIHN0b3AtY29sb3I9JyNjMDI3M2YnIHN0b3Atb3BhY2l0eT0nLjInLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyNmZjJlNGQnIHN0b3Atb3BhY2l0eT0nMCcvPjwvcmFkaWFsR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdtMScgeDE9JzAnIHkxPScwJyB4Mj0nMCcgeTI9JzEnPjxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nIzNhMjU1MCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzI0MTYzNCcvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdtMicgeDE9JzAnIHkxPScwJyB4Mj0nMCcgeTI9JzEnPjxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nIzI0MTYzNCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzEyMGMyMCcvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdsZycgeDE9JzAnIHkxPScwJyB4Mj0nMCcgeTI9JzEnPjxzdG9wIG9mZnNldD0nLjQyJyBzdG9wLWNvbG9yPScjMGIwOTEzJyBzdG9wLW9wYWNpdHk9JzAnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMwYjA5MTMnIHN0b3Atb3BhY2l0eT0nLjg1Jy8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzE0NDAnIGhlaWdodD0nNDQwJyBmaWxsPSd1cmwoI3NreSknLz48ZWxsaXBzZSBjeD0nNzIwJyBjeT0nLTEyJyByeD0nNzYwJyByeT0nMzIwJyBmaWxsPSd1cmwoI2dsb3cpJy8+PGcgZmlsbD0nI2ZmZicgZmlsbC1vcGFjaXR5PScuNSc+PGNpcmNsZSBjeD0nMTgwJyBjeT0nNjAnIHI9JzEnLz48Y2lyY2xlIGN4PSc0MDAnIGN5PSc0Micgcj0nMS4yJy8+PGNpcmNsZSBjeD0nOTgwJyBjeT0nNTInIHI9JzEnLz48Y2lyY2xlIGN4PScxMjQwJyBjeT0nNDQnIHI9JzEuMicvPjxjaXJjbGUgY3g9JzExMjAnIGN5PSc5Nicgcj0nMScvPjxjaXJjbGUgY3g9JzMwMCcgY3k9JzExMCcgcj0nMScvPjwvZz48Y2lyY2xlIGN4PScyNTAnIGN5PSc3MCcgcj0nNScgZmlsbD0nI2ZmMmU0ZCcvPjxwb2x5Z29uIHBvaW50cz0nMCwzMDAgMTYwLDIxMCAzMjAsMjc4IDQ3MCwxODggNjQwLDI4OCA4MDAsMjA1IDk4MCwyODQgMTE0MCwxOTggMTMwMCwyNjggMTQ0MCwyMjIgMTQ0MCw0NDAgMCw0NDAnIGZpbGw9J3VybCgjbTEpJyBvcGFjaXR5PScuOTInLz48ZyBmaWxsPScjNTIzNDVmJyBvcGFjaXR5PScuNSc+PHBvbHlnb24gcG9pbnRzPSc0NzAsMTg4IDU2MCwyMzYgMzgwLDIzNicvPjxwb2x5Z29uIHBvaW50cz0nMTE0MCwxOTggMTIzMCwyMzQgMTA1MCwyMzQnLz48cG9seWdvbiBwb2ludHM9JzE2MCwyMTAgMjUwLDI1NiA3MCwyNTYnLz48L2c+PHBvbHlnb24gcG9pbnRzPScwLDM2MCAyMjAsMjc0IDQzMCwzNDQgNjQwLDI2OCA4ODAsMzUwIDEwODAsMjc0IDEyODAsMzQ0IDE0NDAsMzAwIDE0NDAsNDQwIDAsNDQwJyBmaWxsPSd1cmwoI20yKScvPjxwb2x5bGluZSBwb2ludHM9JzAsMzYwIDIyMCwyNzQgNDMwLDM0NCA2NDAsMjY4IDg4MCwzNTAgMTA4MCwyNzQgMTI4MCwzNDQgMTQ0MCwzMDAnIGZpbGw9J25vbmUnIHN0cm9rZT0nI2ZmMmU0ZCcgc3Ryb2tlLW9wYWNpdHk9Jy4yOCcgc3Ryb2tlLXdpZHRoPScxLjUnLz48cmVjdCB3aWR0aD0nMTQ0MCcgaGVpZ2h0PSc0NDAnIGZpbGw9J3VybCgjbGcpJy8+PC9zdmc+) center/cover no-repeat}
+.tag{font-size:12px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;
+color:var(--accent2);margin-bottom:16px}
+h1{font-size:46px;font-weight:600;color:var(--ink);line-height:1.08;letter-spacing:.05em;
+text-transform:uppercase}
+h1 .vs{color:var(--accent);font-weight:300;margin:0 12px}
+.chips{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:12px;letter-spacing:.05em;color:var(--body);border:1px solid var(--line);
+border-radius:4px;padding:6px 12px;background:rgba(255,255,255,.04)}
+.chip b{color:var(--ink);font-weight:600}
+/* hero 内文字加猩红辉光，chip 用磨砂玻璃 */
+.hero .tag{color:var(--accent2)}
+.hero h1{color:#fff;text-shadow:0 0 26px var(--glow)}
+.hero h1 .vs{color:var(--accent)}
+.hero .chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#efeaf2}
 .hero .chip b{color:#fff}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:32px}
-.card{grid-column:span 6;border:1px solid var(--line);border-radius:8px;
-background:var(--canvas);padding:24px 26px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:30px}
+.card{grid-column:span 6;border:1px solid var(--line);border-radius:12px;
+background:var(--card);padding:22px 24px;overflow-x:auto}
 .card.w12{grid-column:span 12}
-.ct{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.ct .ico{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;
-justify-content:center;background:var(--ash);color:var(--ink);font-weight:500;font-size:14px}
-.ct h2{font-size:16px;font-weight:500;color:var(--ink)}
+.ct{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.ct .ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+justify-content:center;background:rgba(255,46,77,.14);color:var(--accent2);
+border:1px solid var(--line2);font-weight:600;font-size:13px}
+.ct h2{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:.04em}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:var(--mut);background:var(--ash);padding:10px;text-align:center;font-weight:500;
-border-bottom:1px solid var(--line)}
-th:first-child{border-radius:4px 0 0 0}th:last-child{border-radius:0 4px 0 0}
+th{color:var(--mut);background:rgba(255,255,255,.04);padding:10px;text-align:center;
+font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+th:first-child{border-radius:6px 0 0 0}th:last-child{border-radius:0 6px 0 0}
 td{padding:10px;text-align:center;border-bottom:1px solid var(--line);color:var(--body)}
 td:first-child{text-align:left;color:var(--mut)}
-tr:hover td{background:var(--ash)}
-.pos{color:var(--pos);font-weight:500}.neg{color:var(--neg);font-weight:500}
-.rec{margin-top:16px;border:1px solid var(--line);border-radius:8px;
-padding:16px 18px;font-size:13px;background:var(--ash);line-height:1.7;color:var(--body)}
-.rec .pick{color:var(--blue);font-weight:500}
-.badge{display:inline-block;border-radius:4px;padding:3px 10px;font-size:12px;
-font-weight:500;margin-left:8px;border:1px solid var(--line2);background:var(--canvas)}
-.b-good{color:var(--blue);border-color:var(--blue)}
-.b-mid{color:var(--mut);border-color:var(--line2)}
-.b-warn{color:var(--neg);border-color:var(--neg)}
+tr:hover td{background:rgba(255,46,77,.06)}
+.pos{color:var(--pos);font-weight:600}.neg{color:var(--neg);font-weight:600}
+.rec{margin-top:16px;border:1px solid var(--line2);border-radius:10px;
+padding:15px 18px;font-size:13px;background:rgba(255,46,77,.06);line-height:1.7;color:var(--body)}
+.rec .pick{color:var(--accent2);font-weight:600;text-shadow:0 0 14px var(--glow)}
+.badge{display:inline-block;border-radius:4px;padding:3px 10px;font-size:11px;
+font-weight:600;letter-spacing:.05em;margin-left:8px;border:1px solid var(--line);background:transparent}
+.b-good{color:var(--pos);border-color:rgba(51,211,155,.5)}
+.b-mid{color:var(--mut);border-color:var(--line)}
+.b-warn{color:var(--accent2);border-color:var(--line2)}
 ul{list-style:none}
 li{font-size:13px;padding:5px 0 5px 16px;position:relative;line-height:1.6;color:var(--body)}
 li:before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;
-border-radius:50%;background:var(--faint)}
+border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent)}
 .mut{color:var(--mut)}
 .small{font-size:12px;color:var(--mut);line-height:1.65;margin-top:12px}
 .kpis{display:flex;gap:16px;margin:16px 0 4px}
-.kpi{flex:1;border:1px solid var(--line);border-radius:8px;padding:16px;
-text-align:center;background:var(--canvas)}
-.kpi .v{font-size:24px;font-weight:500;color:var(--ink)}
-.kpi .l{font-size:12px;color:var(--mut);margin-top:5px}
-.verdict{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:10px}
-.sub{font-size:13px;font-weight:500;color:var(--ink);margin:16px 0 6px}
+.kpi{flex:1;border:1px solid var(--line);border-radius:10px;padding:16px;
+text-align:center;background:rgba(255,255,255,.025)}
+.kpi .v{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.kpi .l{font-size:11px;color:var(--mut);margin-top:6px;letter-spacing:.05em}
+.verdict{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.sub{font-size:13px;font-weight:500;color:var(--accent2);margin:16px 0 6px;letter-spacing:.04em}
 .legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:8px}
 .legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;
 vertical-align:middle}
 .footer{margin-top:32px;font-size:12px;color:var(--mut);line-height:1.7;
 border-top:1px solid var(--line);padding-top:16px}
 svg text{font-family:inherit}
-.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 @media (max-width:900px){
   body{min-width:0;padding:24px 16px}
-  h1{font-size:26px}
+  h1{font-size:30px}
   .grid{grid-template-columns:1fr}
   .card,.card.w12{grid-column:span 1}
   .cols3,.cols2{grid-template-columns:1fr}
@@ -86,7 +94,7 @@ svg text{font-family:inherit}
 <div class="chips">
 <span class="chip">赛事 <b>—</b></span>
 <span class="chip">开赛 <b>2026-06-22 09:00</b>（北京时间）</span>
-<span class="chip">快照 <b>2026-06-20 22:45</b></span>
+<span class="chip">快照 <b>2026-06-20 23:15</b></span>
 <span class="chip">基准 <b>pinnacle+betfair_ex_eu</b></span>
 </div></div><div class="grid"><div class="card"><div class="ct"><div class="ico">■</div>
 <h2>模型参数 · 由市场赔率反推，无主观输入</h2></div>
@@ -102,7 +110,7 @@ svg text{font-family:inherit}
 <div class="small">幂法去水（主锚抽水 3.8%）· 双锚加权 · 近 3 帧平滑 ·
 泊松 + Dixon-Coles · 满足 1X2 / 让球 / 大小球三组零期望约束</div></div><div class="card"><div class="ct"><div class="ico">~</div>
 <h2>盘口走势 · 职业资金的脚印</h2></div>
-<svg viewBox="0 0 640 200" width="100%"><line x1="44" y1="176.0" x2="626" y2="176.0" stroke="#eeeeee" stroke-width="1"/><text x="38" y="180.0" font-size="10" fill="#8e8e8e" text-anchor="end">0.93</text><line x1="44" y1="121.3" x2="626" y2="121.3" stroke="#eeeeee" stroke-width="1"/><text x="38" y="125.3" font-size="10" fill="#8e8e8e" text-anchor="end">2.98</text><line x1="44" y1="66.7" x2="626" y2="66.7" stroke="#eeeeee" stroke-width="1"/><text x="38" y="70.7" font-size="10" fill="#8e8e8e" text-anchor="end">5.03</text><line x1="44" y1="12.0" x2="626" y2="12.0" stroke="#eeeeee" stroke-width="1"/><text x="38" y="16.0" font-size="10" fill="#8e8e8e" text-anchor="end">7.08</text><polyline points="44.0,85.6 91.0,85.3 106.6,85.3 113.5,85.3 116.9,85.3 118.1,85.3 133.7,85.3 135.0,85.3 137.6,85.3 158.9,85.3 174.5,85.3 187.8,85.3 191.2,85.3 210.9,85.3 226.0,85.3 228.5,85.3 230.3,85.3 232.1,85.3 233.3,85.3 235.1,85.3 236.8,85.3 238.0,85.3 239.8,85.3 241.0,85.1 242.8,85.1 244.6,85.1 246.4,85.1 247.6,85.1 249.4,85.1 250.6,85.1 252.3,85.1 253.5,85.1 254.7,85.1 256.5,85.1 270.8,85.1 281.0,85.1 282.5,85.1 283.9,85.1 285.7,85.1 287.5,85.1 288.7,85.1 290.3,85.1 291.7,85.1 292.9,85.1 294.1,85.1 295.8,85.1 297.0,85.1 298.8,85.1 300.0,85.1 301.6,85.1 303.0,85.1 304.8,85.1 306.6,85.1 308.4,85.1 322.7,85.1 335.8,85.1 337.6,85.1 338.8,85.1 340.6,85.1 342.3,85.1 343.5,85.1 345.3,85.1 347.1,85.1 348.3,84.5 350.2,84.5 351.9,82.4 353.7,82.4 354.9,70.9 356.1,68.2 357.8,68.2 359.6,68.2 361.4,68.2 363.2,67.7 378.1,58.4 392.4,56.5 400.2,56.5 402.0,56.5 403.7,56.5 404.9,56.5 406.7,56.5 408.5,56.5 410.3,56.5 412.1,56.5 413.8,56.5 415.6,56.5 416.8,56.5 418.6,56.5 419.8,56.5 421.6,56.5 423.4,56.5 424.6,56.5 426.4,56.5 427.6,56.5 442.4,56.5 452.6,55.2 454.4,55.2 456.2,55.2 457.4,55.2 459.1,55.2 460.9,55.2 462.1,55.2 463.7,54.9 465.1,54.9 466.3,54.9 468.1,54.9 469.3,54.9 471.1,54.9 472.8,54.9 474.0,54.9 475.8,54.9 477.0,54.9 478.8,54.9 480.6,54.9 495.5,54.9 507.4,54.9 509.2,54.9 511.0,55.4 512.2,55.4 514.0,55.4 515.8,55.4 517.0,55.4 518.7,55.4 519.9,55.4 521.7,55.4 523.5,55.4 524.7,55.4 525.9,55.4 527.1,55.4 528.9,55.4 530.6,55.4 532.4,55.4 533.6,55.4 535.4,55.4 549.7,55.4 564.0,55.4 571.8,55.4 573.6,55.4 574.7,55.4 576.5,55.4 578.3,55.4 580.1,55.4 581.3,55.4 583.1,55.4 584.9,55.4 586.1,55.4 587.9,56.0 589.6,56.0 590.8,56.0 592.6,56.0 593.8,56.0 595.6,56.0 621.6,56.2 624.2,56.2 626.0,56.2" fill="none" stroke="#3e6ae1" stroke-width="2.2" stroke-linejoin="round"/><circle cx="626.0" cy="56.2" r="3.5" fill="#3e6ae1"/><polyline points="44.0,67.4 91.0,67.4 106.6,67.4 113.5,67.4 116.9,67.4 118.1,67.4 133.7,70.1 135.0,70.1 137.6,70.1 158.9,70.1 174.5,70.1 187.8,70.1 191.2,70.1 210.9,70.1 226.0,72.8 228.5,75.5 230.3,75.5 232.1,70.1 233.3,70.1 235.1,70.1 236.8,70.1 238.0,70.1 239.8,70.1 241.0,70.1 242.8,70.1 244.6,70.1 246.4,70.1 247.6,70.1 249.4,70.1 250.6,70.1 252.3,70.1 253.5,70.1 254.7,70.1 256.5,67.4 270.8,70.1 281.0,67.4 282.5,67.4 283.9,67.4 285.7,67.4 287.5,67.4 288.7,67.4 290.3,67.4 291.7,67.4 292.9,67.4 294.1,67.4 295.8,67.4 297.0,67.4 298.8,67.4 300.0,67.4 301.6,67.4 303.0,67.4 304.8,67.4 306.6,67.4 308.4,64.8 322.7,67.4 335.8,64.8 337.6,64.8 338.8,64.8 340.6,64.8 342.3,64.8 343.5,64.8 345.3,64.8 347.1,64.8 348.3,64.8 350.2,64.8 351.9,59.4 353.7,59.4 354.9,56.8 356.1,62.1 357.8,56.8 359.6,56.8 361.4,54.1 363.2,54.1 378.1,40.8 392.4,40.8 400.2,40.8 402.0,40.8 403.7,40.8 404.9,40.8 406.7,40.8 408.5,40.8 410.3,40.8 412.1,40.8 413.8,40.8 415.6,40.8 416.8,40.8 418.6,40.8 419.8,40.8 421.6,40.8 423.4,40.8 424.6,40.8 426.4,40.8 427.6,40.8 442.4,40.8 452.6,40.8 454.4,40.8 456.2,40.8 457.4,40.8 459.1,40.8 460.9,40.8 462.1,40.8 463.7,40.8 465.1,40.8 466.3,40.8 468.1,40.8 469.3,40.8 471.1,40.8 472.8,40.8 474.0,40.8 475.8,40.8 477.0,40.8 478.8,40.8 480.6,40.8 495.5,40.8 507.4,40.8 509.2,40.8 511.0,40.8 512.2,40.8 514.0,40.8 515.8,40.8 517.0,40.8 518.7,40.8 519.9,40.8 521.7,40.8 523.5,40.8 524.7,40.8 525.9,40.8 527.1,40.8 528.9,40.8 530.6,40.8 532.4,40.8 533.6,40.8 535.4,40.8 549.7,35.4 564.0,35.4 571.8,40.8 573.6,40.8 574.7,40.8 576.5,40.8 578.3,40.8 580.1,40.8 581.3,40.8 583.1,40.8 584.9,40.8 586.1,40.8 587.9,40.8 589.6,40.8 590.8,40.8 592.6,40.8 593.8,40.8 595.6,40.8 621.6,40.8 624.2,40.8 626.0,40.8" fill="none" stroke="#171a20" stroke-width="2.2" stroke-linejoin="round"/><circle cx="626.0" cy="40.8" r="3.5" fill="#171a20"/><polyline points="44.0,152.0 91.0,152.0 106.6,152.0 113.5,152.0 116.9,152.0 118.1,152.0 133.7,152.0 135.0,152.0 137.6,152.0 158.9,152.0 174.5,152.0 187.8,152.0 191.2,152.0 210.9,152.0 226.0,152.0 228.5,152.0 230.3,152.0 232.1,152.0 233.3,152.0 235.1,152.0 236.8,152.0 238.0,152.0 239.8,152.0 241.0,152.0 242.8,152.0 244.6,152.0 246.4,152.0 247.6,152.0 249.4,152.0 250.6,152.0 252.3,152.0 253.5,152.0 254.7,152.0 256.5,152.0 270.8,152.0 281.0,152.0 282.5,152.0 283.9,152.0 285.7,152.0 287.5,152.0 288.7,152.0 290.3,152.0 291.7,152.0 292.9,152.0 294.1,152.0 295.8,152.0 297.0,152.0 298.8,152.0 300.0,152.0 301.6,152.0 303.0,152.0 304.8,152.0 306.6,152.0 308.4,152.0 322.7,152.0 335.8,152.0 337.6,152.0 338.8,152.0 340.6,152.0 342.3,152.0 343.5,152.0 345.3,152.0 347.1,152.0 348.3,151.8 350.2,151.8 351.9,151.2 353.7,151.2 354.9,147.8 356.1,147.2 357.8,147.2 359.6,147.2 361.4,147.2 363.2,147.0 378.1,145.4 392.4,144.6 400.2,144.6 402.0,144.6 403.7,144.6 404.9,144.6 406.7,144.6 408.5,144.6 410.3,144.6 412.1,144.6 413.8,144.6 415.6,144.6 416.8,144.6 418.6,144.6 419.8,144.6 421.6,144.6 423.4,144.6 424.6,144.6 426.4,144.6 427.6,144.6 442.4,144.6 452.6,144.3 454.4,144.3 456.2,144.3 457.4,144.3 459.1,144.3 460.9,144.3 462.1,144.3 463.7,152.6 465.1,152.6 466.3,152.6 468.1,152.6 469.3,152.6 471.1,152.6 472.8,152.6 474.0,152.6 475.8,152.6 477.0,152.6 478.8,152.6 480.6,152.6 495.5,152.6 507.4,152.6 509.2,152.6 511.0,144.3 512.2,144.3 514.0,144.3 515.8,144.3 517.0,144.3 518.7,144.3 519.9,144.3 521.7,144.3 523.5,144.3 524.7,144.3 525.9,144.3 527.1,144.3 528.9,144.3 530.6,144.3 532.4,144.3 533.6,144.3 535.4,144.3 549.7,144.3 564.0,144.3 571.8,144.3 573.6,144.3 574.7,144.3 576.5,144.3 578.3,144.3 580.1,144.3 581.3,144.3 583.1,144.3 584.9,144.3 586.1,144.3 587.9,152.3 589.6,152.3 590.8,152.3 592.6,152.3 593.8,152.3 595.6,152.3 621.6,152.6 624.2,152.6 626.0,152.6" fill="none" stroke="#8e8e8e" stroke-width="2.2" stroke-linejoin="round"/><circle cx="626.0" cy="152.6" r="3.5" fill="#8e8e8e"/><text x="44" y="194" font-size="10" fill="#8e8e8e">2026-06-10 18:36</text><text x="626" y="194" font-size="10" fill="#8e8e8e" text-anchor="end">2026-06-20 22:45</text></svg><div class="legend"><span><i style="background:#3e6ae1"></i>Pinnacle 主胜赔率</span><span><i style="background:#171a20"></i>Betfair 主胜赔率</span><span><i style="background:#8e8e8e"></i>Pinnacle 亚盘主队水位</span></div></div><div class="card w12"><div class="ct"><div class="ico">◉</div>
+<svg viewBox="0 0 640 200" width="100%"><line x1="44" y1="176.0" x2="626" y2="176.0" stroke="rgba(255,255,255,.09)" stroke-width="1"/><text x="38" y="180.0" font-size="10" fill="#867f9a" text-anchor="end">0.93</text><line x1="44" y1="121.3" x2="626" y2="121.3" stroke="rgba(255,255,255,.09)" stroke-width="1"/><text x="38" y="125.3" font-size="10" fill="#867f9a" text-anchor="end">2.98</text><line x1="44" y1="66.7" x2="626" y2="66.7" stroke="rgba(255,255,255,.09)" stroke-width="1"/><text x="38" y="70.7" font-size="10" fill="#867f9a" text-anchor="end">5.03</text><line x1="44" y1="12.0" x2="626" y2="12.0" stroke="rgba(255,255,255,.09)" stroke-width="1"/><text x="38" y="16.0" font-size="10" fill="#867f9a" text-anchor="end">7.08</text><polyline points="44.0,85.6 90.9,85.3 106.5,85.3 113.3,85.3 116.7,85.3 117.9,85.3 133.6,85.3 134.8,85.3 137.4,85.3 158.6,85.3 174.3,85.3 187.5,85.3 190.9,85.3 210.5,85.3 225.6,85.3 228.1,85.3 229.9,85.3 231.7,85.3 232.9,85.3 234.7,85.3 236.5,85.3 237.6,85.3 239.4,85.3 240.6,85.1 242.4,85.1 244.2,85.1 246.0,85.1 247.2,85.1 248.9,85.1 250.1,85.1 251.9,85.1 253.1,85.1 254.3,85.1 256.1,85.1 270.3,85.1 280.5,85.1 282.0,85.1 283.4,85.1 285.2,85.1 287.0,85.1 288.2,85.1 289.8,85.1 291.2,85.1 292.4,85.1 293.6,85.1 295.3,85.1 296.5,85.1 298.3,85.1 299.5,85.1 301.1,85.1 302.5,85.1 304.3,85.1 306.0,85.1 307.8,85.1 322.1,85.1 335.2,85.1 337.0,85.1 338.1,85.1 339.9,85.1 341.7,85.1 342.9,85.1 344.7,85.1 346.5,85.1 347.7,84.5 349.6,84.5 351.2,82.4 353.0,82.4 354.2,70.9 355.5,68.2 357.2,68.2 359.0,68.2 360.7,68.2 362.5,67.7 377.4,58.4 391.7,56.5 399.4,56.5 401.2,56.5 403.0,56.5 404.2,56.5 406.0,56.5 407.7,56.5 409.5,56.5 411.3,56.5 413.1,56.5 414.9,56.5 416.1,56.5 417.8,56.5 419.0,56.5 420.8,56.5 422.6,56.5 423.8,56.5 425.6,56.5 426.8,56.5 441.6,56.5 451.8,55.2 453.5,55.2 455.3,55.2 456.5,55.2 458.3,55.2 460.1,55.2 461.3,55.2 462.9,54.9 464.2,54.9 465.4,54.9 467.2,54.9 468.4,54.9 470.2,54.9 472.0,54.9 473.2,54.9 474.9,54.9 476.1,54.9 477.9,54.9 479.7,54.9 494.6,54.9 506.5,54.9 508.2,54.9 510.0,55.4 511.2,55.4 513.0,55.4 514.8,55.4 516.0,55.4 517.8,55.4 518.9,55.4 520.7,55.4 522.5,55.4 523.7,55.4 524.9,55.4 526.1,55.4 527.9,55.4 529.7,55.4 531.4,55.4 532.6,55.4 534.4,55.4 548.7,55.4 563.0,55.4 570.7,55.4 572.5,55.4 573.7,55.4 575.5,55.4 577.2,55.4 579.0,55.4 580.2,55.4 582.0,55.4 583.8,55.4 585.0,55.4 586.7,56.0 588.5,56.0 589.7,56.0 591.5,56.0 592.7,56.0 594.5,56.0 620.4,56.2 623.0,56.2 624.8,56.2 626.0,56.2" fill="none" stroke="#ff2e4d" stroke-width="2.2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ff2e4d)"/><circle cx="626.0" cy="56.2" r="3.5" fill="#ff2e4d" style="filter:drop-shadow(0 0 6px #ff2e4d)"/><polyline points="44.0,67.4 90.9,67.4 106.5,67.4 113.3,67.4 116.7,67.4 117.9,67.4 133.6,70.1 134.8,70.1 137.4,70.1 158.6,70.1 174.3,70.1 187.5,70.1 190.9,70.1 210.5,70.1 225.6,72.8 228.1,75.5 229.9,75.5 231.7,70.1 232.9,70.1 234.7,70.1 236.5,70.1 237.6,70.1 239.4,70.1 240.6,70.1 242.4,70.1 244.2,70.1 246.0,70.1 247.2,70.1 248.9,70.1 250.1,70.1 251.9,70.1 253.1,70.1 254.3,70.1 256.1,67.4 270.3,70.1 280.5,67.4 282.0,67.4 283.4,67.4 285.2,67.4 287.0,67.4 288.2,67.4 289.8,67.4 291.2,67.4 292.4,67.4 293.6,67.4 295.3,67.4 296.5,67.4 298.3,67.4 299.5,67.4 301.1,67.4 302.5,67.4 304.3,67.4 306.0,67.4 307.8,64.8 322.1,67.4 335.2,64.8 337.0,64.8 338.1,64.8 339.9,64.8 341.7,64.8 342.9,64.8 344.7,64.8 346.5,64.8 347.7,64.8 349.6,64.8 351.2,59.4 353.0,59.4 354.2,56.8 355.5,62.1 357.2,56.8 359.0,56.8 360.7,54.1 362.5,54.1 377.4,40.8 391.7,40.8 399.4,40.8 401.2,40.8 403.0,40.8 404.2,40.8 406.0,40.8 407.7,40.8 409.5,40.8 411.3,40.8 413.1,40.8 414.9,40.8 416.1,40.8 417.8,40.8 419.0,40.8 420.8,40.8 422.6,40.8 423.8,40.8 425.6,40.8 426.8,40.8 441.6,40.8 451.8,40.8 453.5,40.8 455.3,40.8 456.5,40.8 458.3,40.8 460.1,40.8 461.3,40.8 462.9,40.8 464.2,40.8 465.4,40.8 467.2,40.8 468.4,40.8 470.2,40.8 472.0,40.8 473.2,40.8 474.9,40.8 476.1,40.8 477.9,40.8 479.7,40.8 494.6,40.8 506.5,40.8 508.2,40.8 510.0,40.8 511.2,40.8 513.0,40.8 514.8,40.8 516.0,40.8 517.8,40.8 518.9,40.8 520.7,40.8 522.5,40.8 523.7,40.8 524.9,40.8 526.1,40.8 527.9,40.8 529.7,40.8 531.4,40.8 532.6,40.8 534.4,40.8 548.7,35.4 563.0,35.4 570.7,40.8 572.5,40.8 573.7,40.8 575.5,40.8 577.2,40.8 579.0,40.8 580.2,40.8 582.0,40.8 583.8,40.8 585.0,40.8 586.7,40.8 588.5,40.8 589.7,40.8 591.5,40.8 592.7,40.8 594.5,40.8 620.4,40.8 623.0,40.8 624.8,40.8 626.0,40.8" fill="none" stroke="#f4eef6" stroke-width="2.2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #f4eef6)"/><circle cx="626.0" cy="40.8" r="3.5" fill="#f4eef6" style="filter:drop-shadow(0 0 6px #f4eef6)"/><polyline points="44.0,152.0 90.9,152.0 106.5,152.0 113.3,152.0 116.7,152.0 117.9,152.0 133.6,152.0 134.8,152.0 137.4,152.0 158.6,152.0 174.3,152.0 187.5,152.0 190.9,152.0 210.5,152.0 225.6,152.0 228.1,152.0 229.9,152.0 231.7,152.0 232.9,152.0 234.7,152.0 236.5,152.0 237.6,152.0 239.4,152.0 240.6,152.0 242.4,152.0 244.2,152.0 246.0,152.0 247.2,152.0 248.9,152.0 250.1,152.0 251.9,152.0 253.1,152.0 254.3,152.0 256.1,152.0 270.3,152.0 280.5,152.0 282.0,152.0 283.4,152.0 285.2,152.0 287.0,152.0 288.2,152.0 289.8,152.0 291.2,152.0 292.4,152.0 293.6,152.0 295.3,152.0 296.5,152.0 298.3,152.0 299.5,152.0 301.1,152.0 302.5,152.0 304.3,152.0 306.0,152.0 307.8,152.0 322.1,152.0 335.2,152.0 337.0,152.0 338.1,152.0 339.9,152.0 341.7,152.0 342.9,152.0 344.7,152.0 346.5,152.0 347.7,151.8 349.6,151.8 351.2,151.2 353.0,151.2 354.2,147.8 355.5,147.2 357.2,147.2 359.0,147.2 360.7,147.2 362.5,147.0 377.4,145.4 391.7,144.6 399.4,144.6 401.2,144.6 403.0,144.6 404.2,144.6 406.0,144.6 407.7,144.6 409.5,144.6 411.3,144.6 413.1,144.6 414.9,144.6 416.1,144.6 417.8,144.6 419.0,144.6 420.8,144.6 422.6,144.6 423.8,144.6 425.6,144.6 426.8,144.6 441.6,144.6 451.8,144.3 453.5,144.3 455.3,144.3 456.5,144.3 458.3,144.3 460.1,144.3 461.3,144.3 462.9,152.6 464.2,152.6 465.4,152.6 467.2,152.6 468.4,152.6 470.2,152.6 472.0,152.6 473.2,152.6 474.9,152.6 476.1,152.6 477.9,152.6 479.7,152.6 494.6,152.6 506.5,152.6 508.2,152.6 510.0,144.3 511.2,144.3 513.0,144.3 514.8,144.3 516.0,144.3 517.8,144.3 518.9,144.3 520.7,144.3 522.5,144.3 523.7,144.3 524.9,144.3 526.1,144.3 527.9,144.3 529.7,144.3 531.4,144.3 532.6,144.3 534.4,144.3 548.7,144.3 563.0,144.3 570.7,144.3 572.5,144.3 573.7,144.3 575.5,144.3 577.2,144.3 579.0,144.3 580.2,144.3 582.0,144.3 583.8,144.3 585.0,144.3 586.7,152.3 588.5,152.3 589.7,152.3 591.5,152.3 592.7,152.3 594.5,152.3 620.4,152.6 623.0,152.6 624.8,152.6 626.0,152.6" fill="none" stroke="#9b7fd0" stroke-width="2.2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #9b7fd0)"/><circle cx="626.0" cy="152.6" r="3.5" fill="#9b7fd0" style="filter:drop-shadow(0 0 6px #9b7fd0)"/><text x="44" y="194" font-size="10" fill="#867f9a">2026-06-10 18:36</text><text x="626" y="194" font-size="10" fill="#867f9a" text-anchor="end">2026-06-20 23:15</text></svg><div class="legend"><span><i style="background:#ff2e4d"></i>Pinnacle 主胜赔率</span><span><i style="background:#f4eef6"></i>Betfair 主胜赔率</span><span><i style="background:#9b7fd0"></i>Pinnacle 亚盘主队水位</span></div></div><div class="card w12"><div class="ct"><div class="ico">◉</div>
 <h2>基本面对比 · 助读（不消耗赔率额度，独立于模型计算）</h2></div>
 <div class="sub">🏟 球场</div><ul><li>BC Place · 温哥华 ｜ 海拔 5 米 ｜ 可开合顶棚 ｜ 容量约 54 千</li></ul><div class="sub">⛅ 天气（赛日预报）</div><ul><li>赛日 15~25°C ｜ 降水概率 0% ｜ 最大风速 13 km/h</li></ul><div class="sub">📊 近况攻防对比（近 N 场场均）</div><table><tr><th>球队</th><th>战绩</th><th>场均进球</th><th>场均失球</th><th>积分</th></tr><tr><td>新西兰</td><td>1胜1平8负</td><td>0.7</td><td>1.8</td><td>4</td></tr><tr><td>埃及</td><td>5胜3平2负</td><td>1.3</td><td>0.6</td><td>18</td></tr></table>
 <div class="small">本卡为事实/可计算数据（球场、赛日天气、海拔、主场、近况攻防），
@@ -111,7 +119,7 @@ svg text{font-family:inherit}
 <h2>亚洲让球盘</h2></div>
 <table><tr><th>公司</th><th>盘口</th><th>主赔</th><th>客赔</th><th>公平主</th>
 <th>公平客</th><th>主EV</th><th>客EV</th></tr><tr><td>onexbet</td><td>+1.50</td><td>1.47</td><td>2.80</td><td>1.52</td><td>2.94</td><td>-3.0%</td><td>-4.8%</td></tr><tr><td>pinnacle</td><td>+1.00</td><td>1.81</td><td>2.11</td><td>1.86</td><td>2.17</td><td>-1.8%</td><td>-2.0%</td></tr></table>
-<div class="rec"><b>亚盘推荐</b>: <span class="pick">「主受让 1.00」</span> @ 1.81（pinnacle，全场最优价）<span class="badge b-mid">可参与 · 损耗在抽水内</span><br/><span class="mut">模型概率: 赢 39.7% / 走 26.3% / 输 34.0% ｜ EV -1.8%</span><br/><span style="color:#c0392b">价格行为与本推荐反向（参考意义低，回测中资金方向与赛果不相关）</span></div></div><div class="card"><div class="ct"><div class="ico">●</div>
+<div class="rec"><b>亚盘推荐</b>: <span class="pick">「主受让 1.00」</span> @ 1.81（pinnacle，全场最优价）<span class="badge b-mid">可参与 · 损耗在抽水内</span><br/><span class="mut">模型概率: 赢 39.7% / 走 26.3% / 输 34.0% ｜ EV -1.8%</span><br/><span style="color:#ff5e78">价格行为与本推荐反向（参考意义低，回测中资金方向与赛果不相关）</span></div></div><div class="card"><div class="ct"><div class="ico">●</div>
 <h2>大小球盘</h2></div>
 <table><tr><th>公司</th><th>盘口</th><th>大球</th><th>小球</th><th>公平大</th>
 <th>公平小</th><th>大EV</th><th>小EV</th></tr><tr><td>betsson</td><td>2.50</td><td>2.10</td><td>1.75</td><td>2.17</td><td>1.86</td><td>-3.2%</td><td>-5.7%</td></tr><tr><td>onexbet</td><td>2.50</td><td>2.10</td><td>1.79</td><td>2.17</td><td>1.86</td><td>-3.2%</td><td>-3.5%</td></tr><tr><td>pinnacle</td><td>2.25</td><td>1.85</td><td>2.05</td><td>1.90</td><td>2.12</td><td>-2.1%</td><td>-2.7%</td></tr><tr><td>unibet</td><td>2.50</td><td>2.05</td><td>1.74</td><td>2.17</td><td>1.86</td><td>-5.5%</td><td>-6.2%</td></tr><tr><td>williamhill</td><td>2.50</td><td>2.00</td><td>1.73</td><td>2.17</td><td>1.86</td><td>-7.8%</td><td>-6.7%</td></tr></table>
@@ -122,7 +130,7 @@ svg text{font-family:inherit}
 （14.3%，市价 &gt; 7.0 才值得）、
 次选 0-2（需 &gt; 8.3）、1-1
 （需 &gt; 9.4）<br/><span class="mut">已做 Dixon-Coles 低比分修正
-（ρ=0.036）；波胆方差极大，仓位应远小于亚盘/大小球</span><br/><span style="color:#c0392b">⚠ 与大小球推荐方向相反：波胆首选 0-1（属小球）vs 大小球推荐大球——二者优化目标不同（波胆＝最可能比分，大小球＝最划算价格），<b>勿同时下注，必输一边</b>。看价值跟大小球，博彩票买波胆，二选一。</span></div></div><div class="card"><div class="ct"><div class="ico">※</div>
+（ρ=0.036）；波胆方差极大，仓位应远小于亚盘/大小球</span><br/><span style="color:#ff5e78">⚠ 与大小球推荐方向相反：波胆首选 0-1（属小球）vs 大小球推荐大球——二者优化目标不同（波胆＝最可能比分，大小球＝最划算价格），<b>勿同时下注，必输一边</b>。看价值跟大小球，博彩票买波胆，二选一。</span></div></div><div class="card"><div class="ct"><div class="ico">※</div>
 <h2>模拟下注 · 复盘数据，非真实投注</h2></div><div class="rec mut">尚未落单——系统将在开赛前 3 小时的首轮抓取时，按届时全场最优价自动记录三笔模拟注单（亚盘/大小球/波胆各一），赛果回填后自动结算。</div>
 <div class="small">策略说明: <b>EV最优</b> = 全场损耗最小入口（纯数学）。
 <b>顺资金</b>（按职业资金方向加注的平行实验组）已于 2026-06 下线：24 场分账复盘
@@ -138,9 +146,9 @@ svg text{font-family:inherit}
 <h2>结论的依据链 · 按权重排序</h2></div>
 <div class="cols3">
 <div><div class="sub">① 市场锚点（主依据，模型全部输入）</div><ul><li>pinnacle: 主胜 17.2% / 平 21.9% / 客胜 60.9%（抽水 3.8%）</li><li>betfair_ex_eu: 主胜 16.5% / 平 23.1% / 客胜 60.4%（抽水 0.5%）</li><li>做市商与交易所的主胜概率差 0.7 个百分点——两锚点高度一致，市场共识可信度高</li></ul></div>
-<div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul><li>观察窗口内共 154 个快照时点：</li><li>Pinnacle 主胜赔率 4.32 → 5.42（+25.5%），走高——市场对主队降温</li><li>让球线 +0.75 → +1.00（退盘，对主队信心减弱——这是快照序列里权重最高的信号）</li></ul></div>
+<div><div class="sub">② 盘口走势（解读层，不进入计算）</div><ul><li>观察窗口内共 155 个快照时点：</li><li>Pinnacle 主胜赔率 4.32 → 5.42（+25.5%），走高——市场对主队降温</li><li>让球线 +0.75 → +1.00（退盘，对主队信心减弱——这是快照序列里权重最高的信号）</li></ul></div>
 <div><div class="sub">③ 纸面近况（辅助层，不进入计算）</div><ul><li>New Zealand: 近 10 场 1胜1平8负，进 7 失 18（积 4 分）</li><li>Egypt: 近 10 场 5胜3平2负，进 13 失 6（积 18 分）</li></ul></div></div>
-<div style="border-top:1px solid #eeeeee;margin:16px 0 12px"></div>
+<div style="border-top:1px solid rgba(255,255,255,.09);margin:16px 0 12px"></div>
 <div class="ct" style="margin-bottom:6px"><div class="ico">→</div>
 <h2>④ 资金流向与盘口行为 · 盯盘序列分析</h2></div>
 <div class="verdict">综合判定: 价格偏向客队方向（含让球线移动）——低置信度，回测显示该信号≈噪声，仅供参考</div>
