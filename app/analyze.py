@@ -502,7 +502,7 @@ def _build_basis(conn, match, history, anchors, p_home, p_away):
                 f"让球线稳定在 {l0['line']:+.2f}，主队水位 {f0['home_odds']:.2f} → "
                 f"{l0['home_odds']:.2f}（{wp:+.1f}%，{'向主队方向收紧' if wp < -0.5 else ('向客队方向放宽' if wp > 0.5 else '无方向性变化')}）")
     if len(trend_lines) == 1:
-        trend_lines.append("快照尚少，走势信号待积累（临场 3 小时为密集观察期）")
+        trend_lines.append("快照尚少，走势信号待积累（临场 1.5 小时为密集观察期）")
 
     # ③ 纸面近况（辅助层，不进入计算）
     form_lines = []
@@ -1276,7 +1276,7 @@ def build_html(res, out_path):
                 f"<th>赔率</th><th>注额</th><th>落单时间</th><th>状态</th><th>盈亏</th></tr>"
                 f"{rows}</table>{summary}")
     else:
-        body = ('<div class="rec mut">尚未落单——系统将在开赛前 3 小时的首轮抓取时，'
+        body = ('<div class="rec mut">尚未落单——系统将在开赛前 1.5 小时的首轮抓取时，'
                 '按届时全场最优价自动记录三笔模拟注单（亚盘/大小球/波胆各一），'
                 '赛果回填后自动结算。</div>')
     P.append(f"""<div class="card"><div class="ct"><div class="ico">※</div>
@@ -1289,7 +1289,7 @@ def build_html(res, out_path):
 按现实投注习惯采用小仓位，与前文“波胆仓位应远小于亚盘/大小球”的提示一致。
 波胆按模型公平赔率记账（市价不可采集），其复盘指标为命中率校准；
 亚盘/大小球按落单时刻真实报价记账。<br/>
-<b>注单与上方推荐可能方向不同</b>: 注单在开赛前 3 小时按当时最优入口锁定、永不改动
+<b>注单与上方推荐可能方向不同</b>: 注单在开赛前 1.5 小时按当时最优入口锁定、永不改动
 （复盘需要忠实的入场价）；推荐栏随每轮最新盘口实时重算——两者分歧说明落单后盘口
 发生了移动，EV 接近时（如平手盘）排名极易翻面，不代表判断反转。</div></div>""")
 
@@ -1490,8 +1490,8 @@ def build_index():
 <table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>快照</th><th>报告</th></tr>
 {up_rows}</table>
 <div class="small">「重点」= 手动跟踪（含球队近况数据）；「自动」= 全赛事密集跟踪。
-报告在<b>开赛前 24 小时</b>起自动生成（远期每 6 小时、临场 3 小时每 30 分钟刷新），
-模拟注单于开赛前 3 小时自动落单。</div></div>
+报告在<b>开赛前 8 小时</b>起自动生成（每 6 小时刷新，临场 1.5 小时每 30 分钟），
+模拟注单于开赛前 1.5 小时自动落单。</div></div>
 <div class="card w12"><div class="ct"><div class="ico">✓</div>
 <h2>已完赛 · 最近 20 场</h2></div>
 <table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>比分</th><th>快照</th>
@@ -1807,7 +1807,7 @@ def build_pdf(res, out_path):
                 f"（亚盘/大小球注 1，波胆注 0.1）。", body))
     else:
         story.append(Paragraph(
-            "尚未落单。系统将在<b>开赛前 3 小时的首轮抓取</b>时，按届时全场最优价"
+            "尚未落单。系统将在<b>开赛前 1.5 小时的首轮抓取</b>时，按届时全场最优价"
             "自动记录三笔模拟注单（亚盘 / 大小球 / 波胆各一，每注本金 1），"
             "赛果回填后自动结算，汇总复盘见每日校准报告。", body))
     story.append(Spacer(1, 1.5 * mm))

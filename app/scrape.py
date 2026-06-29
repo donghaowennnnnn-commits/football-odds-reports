@@ -2,9 +2,9 @@
 """单次抓取入口（launchd 每 30 分钟调用一次）。
 
 实际是否抓取由内部规则决定:
-  - 距开赛 > 48h: 跳过
-  - 48h ~ 3h:    距上次抓取 >= 4 小时才抓
-  - <= 3h:       距上次抓取 >= 30 分钟就抓
+  - 距开赛 > 8h: 跳过
+  - 8h ~ 1.5h:   每 6 小时抓一次
+  - <= 1.5h:     距上次抓取 >= 30 分钟就抓
   - 已开赛:      标记 finished，不再抓
 
 手动调试:
@@ -53,7 +53,7 @@ def odds_due(match, now, conn):
     kickoff = parse_utc(match["kickoff_utc"])
     hours_left = (kickoff - now).total_seconds() / 3600
     if hours_left > WINDOW_FAR_HOURS:
-        return False, f"距开赛还有 {hours_left:.1f}h (>48h)，跳过"
+        return False, f"距开赛还有 {hours_left:.1f}h (>8h)，跳过"
     interval = INTERVAL_NEAR_MIN if hours_left <= WINDOW_NEAR_HOURS else INTERVAL_FAR_MIN
     last = db.last_snapshot_time(conn, match["id"])
     if last:
@@ -373,7 +373,7 @@ def main():
     ok = scrape_odds_batch(conn, due_matches, errors) if due_matches else {}
     scraped = sum(1 for v in ok.values() if v)
 
-    # 模拟下注：所有进入临场 3 小时窗口的比赛，首轮自动落单
+    # 模拟下注：所有进入临场 1.5 小时窗口的比赛，首轮自动落单
     for match in due_matches:
         if not ok.get(match["id"]):
             continue

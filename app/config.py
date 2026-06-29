@@ -24,6 +24,8 @@ def _load_env():
 _load_env()
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY", "")
+# 备用 key：主 key 额度耗尽(401)时自动启用，详见 sources/odds_api.py
+ODDS_API_KEY_FALLBACK = os.environ.get("ODDS_API_KEY_FALLBACK", "")
 
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -39,12 +41,15 @@ BOOKMAKERS = [
 MARKETS = "h2h,spreads,totals"  # 欧赔 1X2 / 亚洲让球 / 大小球
 
 # 调度规则：launchd 每 30 分钟唤醒一次 scrape.py，由下面的规则决定是否真的抓
-WINDOW_FAR_HOURS = 48     # 开赛前 48 小时以外不抓
-INTERVAL_FAR_MIN = 360    # 48h ~ 3h：每 6 小时
-WINDOW_NEAR_HOURS = 3
-INTERVAL_NEAR_MIN = 30    # 3h 以内：每 30 分钟
+# 抓取节奏（2026-06 精简）：预测=开赛前最后一帧收盘价，远端盘口对预测无意义、
+# 只烧额度，故大幅收窄。每场约 1（远）+3（近）帧，较旧 13 帧省 ~60% 额度，
+# 而喂给模型的收盘价一帧不少。详见会话结论。
+WINDOW_FAR_HOURS = 8      # 开赛前 8 小时以外不抓（旧 48h 的早盘对预测无意义）
+INTERVAL_FAR_MIN = 360    # 8h ~ 1.5h：每 6 小时（约 1 帧，让网页提前有内容）
+WINDOW_NEAR_HOURS = 1.5
+INTERVAL_NEAR_MIN = 30    # 1.5h 以内：每 30 分钟（约 3 帧，末帧=收盘价，多帧容错）
 TEAM_STATS_INTERVAL_MIN = 720  # 球队数据每 12 小时刷新一次
-REPORT_WINDOW_HOURS = 24       # 开赛前 24 小时起自动生成/刷新 HTML 报告（所有比赛）
+REPORT_WINDOW_HOURS = 8        # 开赛前 8 小时起生成报告（对齐抓取窗口，有赔率才出页）
 
 # 自动跟踪整个赛事：列表中赛事的所有未开赛场次都按正式比赛的频率密集抓取
 # （球队数据和自动 PDF 仍只针对手动 add 的比赛）
