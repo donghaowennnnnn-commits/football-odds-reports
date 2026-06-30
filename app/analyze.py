@@ -1490,8 +1490,8 @@ def build_index():
 <table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>快照</th><th>报告</th></tr>
 {up_rows}</table>
 <div class="small">「重点」= 手动跟踪（含球队近况数据）；「自动」= 全赛事密集跟踪。
-报告在<b>开赛前 8 小时</b>起自动生成（每 6 小时刷新，临场 1.5 小时每 30 分钟），
-模拟注单于开赛前 1.5 小时自动落单。</div></div>
+报告在<b>开赛前 3 天</b>起自动生成（生成不耗额度）；赔率在开赛前 8 小时内抓取
+（临场 1.5 小时每 30 分钟），模拟注单于开赛前 1.5 小时自动落单。</div></div>
 <div class="card w12"><div class="ct"><div class="ico">✓</div>
 <h2>已完赛 · 最近 20 场</h2></div>
 <table><tr><th>开赛(北京)</th><th>比赛</th><th>状态</th><th>比分</th><th>快照</th>
